@@ -24,7 +24,7 @@ class GetRoom(APIView):
             room = Room.objects.filter(code=code)
             if len(room) > 0:
                 data = RoomSerializer(room[0]).data
-                data['is host'] = self.request.session.session_key == room[0].host
+                data['is_host'] = self.request.session.session_key == room[0].host
                 return Response(data, status=status.HTTP_200_OK)
             return Response({'Room Not found': 'Invalid Room'}, status=status.HTTP_404_NOT_FOUND)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
