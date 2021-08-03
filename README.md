@@ -1,7 +1,9 @@
 # mvptrial
 Install npm and node.js
 
-if you want make a virtual env
+if you want make a virtual env, you can make one in the working directrory !
+
+**Setup**
 
 pip install -r requirements.txt
 
