@@ -24,6 +24,8 @@ npm i react react-dom --save-dev
 
 npm install @material-ui/core
 
+npm install @material-ui/lab
+
 npm install @babel/plugin-proposal-class-properties
 
 npm install react-router-dom
