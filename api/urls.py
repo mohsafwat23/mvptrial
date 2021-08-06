@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import RoomView, CreateRoomView, GetRoom, JoinRoom, UserInRoom, LeaveRoom, UpdateRoom
+from . import views
+from .views import *
 
 urlpatterns = [
     path('room', RoomView.as_view()), #dispatch and send over to api.urls
@@ -8,5 +9,6 @@ urlpatterns = [
     path('join-room', JoinRoom.as_view()),
     path('user-in-room', UserInRoom.as_view()),
     path('leave-room', LeaveRoom.as_view()),
-    path('update-room', UpdateRoom.as_view()) 
+    path('update-room', UpdateRoom.as_view()),
+    path('restaurants', views.restaurants, name= "api-restaurants")
 ]

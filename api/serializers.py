@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Room
+from restaurants.models import Restaurant
 
 
 class RoomSerializer(serializers.ModelSerializer):
@@ -20,3 +21,9 @@ class UpdateRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
         fields = ('guest_can_pause', 'votes_to_skip', 'code')
+
+class RestaurantSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Restaurant
+        fields = ('cuisine', 'name', 'rating')
