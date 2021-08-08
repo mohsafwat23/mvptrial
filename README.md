@@ -32,4 +32,6 @@ npm install react-router-dom
 
 npm install @material-ui/icons
 
+npm install --save react-tinder-card --legacy-peer-deps 
+
 npm run dev
