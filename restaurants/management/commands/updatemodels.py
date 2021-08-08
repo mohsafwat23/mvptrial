@@ -8,6 +8,6 @@ class Command(BaseCommand):
         pass
     def handle(self, *args, **options):
         df=pd.read_csv('test_rest.csv')
-        for CUISINE, NAME, RATING in zip(df.Cuisine,df.Name,df.Rating):
-            models = Restaurant(cuisine=CUISINE, name = NAME, rating=RATING)
+        for CUISINE, NAME, RATING, IMAGE in zip(df.Cuisine,df.Name,df.Rating, df.Image):
+            models = Restaurant(cuisine=CUISINE, name = NAME, rating=RATING, image=IMAGE)
             models.save()

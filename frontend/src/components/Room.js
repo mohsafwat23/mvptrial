@@ -1,13 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component , useState} from 'react';
 import { Button, Grid, Typography } from "@material-ui/core";
 import CreateRoomPage from './CreateRoomPage';
+import TinderCard from 'react-tinder-card';
 
 
 export default class Room extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            restaurantsList: [],
+            //name:'',
+            //image:'',
             votesToSkip: 2,
+            lastDirection: null,
             guestCanPause: false,
             isHost: false,
             showSettings: false,
@@ -19,6 +24,7 @@ export default class Room extends Component {
         this.renderSettings=this.renderSettings.bind(this);
         this.getRoomDetails= this.getRoomDetails.bind(this);
         this.getRoomDetails();
+        this.fetchCards = this.fetchCards.bind(this);
     }
 
     getRoomDetails(){
@@ -58,6 +64,27 @@ export default class Room extends Component {
         })
     }
 
+    componentDidMount(){
+        this.fetchCards()
+    }
+
+    fetchCards(){
+        console.log('Fetching...')
+
+        fetch('/api/restaurants')
+        .then(response => response.json())
+        .then(data => {
+            this.setState({
+                restaurantsList : data,
+                //id: data[0].id,
+                //name: data[0].name,
+                //cuisine: data[0].cuisine,
+                //image: data[0].image,
+            });
+        });
+    }
+
+
     renderSettings() {
         return (
         <Grid container spacing={1}>
@@ -96,25 +123,41 @@ export default class Room extends Component {
         );
     }
 
+
+
+    
+
     render() {
+        const characters = this.state.restaurantsList
+
+        const swiped = (direction, nameToDelete) => {
+            console.log('removing: ' + nameToDelete)
+            this.setState({lastDirection: direction})
+          }
+        
+        const outOfFrame = (name) => {
+        console.log(name + ' left the screen!')
+        }
+
         if (this.state.showSettings){
             return this.renderSettings();
         }
         return <Grid container spacing={1}>
             <Grid item xs={12} align ="center">
-                <Typography variant="h4" component="h4">
-                    Code: {this.roomCode}
-                </Typography>
-            </Grid>
-            <Grid item xs={12} align ="center">
-                <Typography variant="h6" component="h6">
-                    Votes: {this.state.votesToSkip}
-                </Typography>
-            </Grid>
-            <Grid item xs={12} align ="center">
-                <Typography variant="h6" component="h6">
-                    Can Pause: {this.state.guestCanPause.toString()}
-                </Typography>
+            <div>
+               <div className='cardContainer'>
+                {characters.map((character)=>
+                    <TinderCard className='swipe' key={character.name} onSwipe={(dir) => swiped(dir, character.name)} onCardLeftScreen={() => outOfFrame(character.name)}>
+                        <div style={{ backgroundImage: 'url(' + character.image + ')' }} className='card'>
+                        <h3>{character.name}</h3>
+                        </div>
+                    </TinderCard>
+                    )
+                    }
+                </div>
+                
+                 {this.state.lastDirection ? <h2 className='infoText'>You swiped {this.state.lastDirection}</h2> : <h2 className='infoText' />}
+            </div>   
             </Grid>
             <Grid item xs={12} align ="center">
                 <Typography variant="h6" component="h6">
