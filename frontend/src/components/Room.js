@@ -149,7 +149,8 @@ export default class Room extends Component {
                 {characters.map((character)=>
                     <TinderCard className='swipe' key={character.id} onSwipe={(dir) => swiped(dir, character.name)} onCardLeftScreen={() => outOfFrame(character.name)}>
                         <div style={{ backgroundImage: 'url(' + character.image + ')' }} className='card'>
-                        <h3>{character.name}</h3>
+                        <div className="name"><h3>{character.name}</h3></div>
+                        <div className="rating"><h3>{character.rating}/5⭐️</h3></div>
                         </div>
                     </TinderCard>
                     )
