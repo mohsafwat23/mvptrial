@@ -6,7 +6,8 @@ from .models import Room
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from restaurants.models import Restaurant
-from rest_framework.decorators import api_view 
+from rest_framework.decorators import api_view
+import random
 
 
 # Create your views here.
@@ -129,6 +130,7 @@ class UpdateRoom(APIView):
 
 @api_view(['GET'])
 def restaurants(request):
-    restaurants = Restaurant.objects.all()
+    restaurants = list(Restaurant.objects.all())
+    restaurants = random.sample(restaurants, 25)
     serializer = RestaurantSerializer(restaurants, many =True)
     return Response(serializer.data)
