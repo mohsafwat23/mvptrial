@@ -93,6 +93,7 @@ export default class RoomJoinPage extends Component {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           code: this.state.roomCode,
+          username: this.state.username,
         }),
       };
 
