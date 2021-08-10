@@ -27,19 +27,21 @@ export default class HomePage extends Component{
             <Grid container spacing={3}>
                 <Grid item xs={12} align="center">
                     <Typography variant="h3" compact="h3">
-                        outvite
+                        <div id="outvite-title"><h3>outvite</h3></div>
                     </Typography>
                 </Grid>
                 <Grid item xs={12} align="center">
                     <ButtonGroup disableElevation variant = "contained" color="primary">
-                        <Button color="primary" to='/join' component={Link}>Join a Room</Button>
-                        <Button color="secondary" to='/create' component={Link}>Create a Room</Button>
+                        <div id="join-a-room"><Button color="primary" to='/join' component={Link}><h3>Join a Room</h3></Button></div>
+                        <div id="create-a-room"><Button color="primary" to='/create' component={Link}><h3>Create a Room</h3></Button></div>
                     </ButtonGroup>
                 </Grid>
             </Grid>
         );
     }
 
+
+    
     clearRoomCode() {
         this.setState({
             roomCode: null,

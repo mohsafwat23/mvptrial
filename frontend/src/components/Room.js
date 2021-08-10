@@ -143,6 +143,11 @@ export default class Room extends Component {
             return this.renderSettings();
         }
         return <Grid container spacing={1}>
+            <div className='leaveroom'>
+                <Grid item xs={12} align ="center">
+                    <Button color="secondary" variant="contained" onClick={this.leaveButtonPressed}>Leave Room</Button>
+                </Grid>
+            </div>
             <Grid item xs={12} align ="center">
             <div>
                <div className='cardContainer'>
@@ -150,25 +155,23 @@ export default class Room extends Component {
                     <TinderCard className='swipe' key={character.id} onSwipe={(dir) => swiped(dir, character.name)} onCardLeftScreen={() => outOfFrame(character.name)}>
                         <div style={{ backgroundImage: 'url(' + character.image + ')' }} className='card'>
                         <div className="name"><h3>{character.name}</h3></div>
-                        <div className="rating"><h3>{character.rating}/5⭐️</h3></div>
+                        <div className="rating"><h3>&nbsp;&nbsp;{ character.rating}/5⭐️</h3></div>
                         </div>
                     </TinderCard>
                     )
                     }
                 </div>
                 
-                 {this.state.lastDirection ? <h2 className='infoText'>You swiped {this.state.lastDirection}</h2> : <h2 className='infoText' />}
+                 {/* {this.state.lastDirection ? <h2 className='infoText'>You swiped {this.state.lastDirection}</h2> : <h2 className='infoText' />} */}
             </div>   
             </Grid>
-            <Grid item xs={12} align ="center">
+            {/* <Grid item xs={12} align ="center">
                 <Typography variant="h6" component="h6">
                     Host: {this.state.isHost.toString()}
                 </Typography>
             </Grid>
-            {this.state.isHost ? this.renderSettingsButton() : null}
-            <Grid item xs={12} align ="center">
-                <Button color="secondary" variant="contained" onClick={this.leaveButtonPressed}>Leave Room</Button>
-            </Grid>
+            {this.state.isHost ? this.renderSettingsButton() : null} */}
+            
         </Grid>;
         
     }
