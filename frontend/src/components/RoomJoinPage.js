@@ -16,6 +16,23 @@ export default class RoomJoinPage extends Component {
       this.handleUsernameTextFieldChange.bind(this);
     this.roomButtonPressed = this.roomButtonPressed.bind(this);
   }
+
+  renderUsernameTextField() {
+    return (
+      <Grid item xs={12} align="center">
+        <TextField
+          error={this.state.usernameError}
+          label="username"
+          placeholder="Enter a username"
+          value={this.state.username}
+          helperText={this.state.usernameError}
+          variant="outlined"
+          onChange={this.handleUsernameTextFieldChange}
+        />
+      </Grid>
+    );
+  }
+
   render() {
     return (
       <Grid container spacing={1}>
@@ -24,17 +41,7 @@ export default class RoomJoinPage extends Component {
             Join a Room
           </Typography>
         </Grid>
-        <Grid item xs={12} align="center">
-          <TextField
-            error={this.state.usernameError}
-            label="username"
-            placeholder="Enter a username"
-            value={this.state.username}
-            helperText={this.state.usernameError}
-            variant="outlined"
-            onChange={this.handleUsernameTextFieldChange}
-          />
-        </Grid>
+        {this.renderUsernameTextField()}
         <Grid item xs={12} align="center">
           <TextField
             error={this.state.roomError}
@@ -76,29 +83,30 @@ export default class RoomJoinPage extends Component {
   }
 
   roomButtonPressed() {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        code: this.state.roomCode,
-      }),
-    };
-    fetch("/api/join-room", requestOptions)
-      .then((response) => {
-        if (response.ok) {
-          this.props.history.push(`/room/${this.state.roomCode}`);
-        } else {
-          this.setState({ roomError: "room not found" });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
     if (this.state.username == "") {
       this.setState({ usernameError: "invalid username" });
     } else {
       this.setState({ usernameError: "" });
+
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          code: this.state.roomCode,
+        }),
+      };
+
+      fetch("/api/join-room", requestOptions)
+        .then((response) => {
+          if (response.ok) {
+            this.props.history.push(`/room/${this.state.roomCode}`);
+          } else {
+            this.setState({ roomError: "room not found" });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }
 }

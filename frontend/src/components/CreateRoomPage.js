@@ -28,6 +28,7 @@ export default class CreateRoomPage extends Component {
     this.state = {
       guestCanPause: this.props.guestCanPause,
       votesToSkip: this.props.votesToSkip,
+      username: this.props.username,
       errorMsg: "",
       successMsg: "",
     };
@@ -53,22 +54,23 @@ export default class CreateRoomPage extends Component {
   }
 
   handleRoomButtonPressed() {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        votes_to_skip: this.state.votesToSkip,
-        guest_can_pause: this.state.guestCanPause,
-      }),
-    };
-    fetch("/api/create-room", requestOptions)
-      .then((response) => response.json())
-      .then((data) => this.props.history.push("/room/" + data.code));
-
     if (this.state.username == "") {
       this.setState({ usernameError: "invalid username" });
     } else {
       this.setState({ usernameError: "" });
+
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          votes_to_skip: this.state.votesToSkip,
+          guest_can_pause: this.state.guestCanPause,
+        }),
+      };
+
+      fetch("/api/create-room", requestOptions)
+        .then((response) => response.json())
+        .then((data) => this.props.history.push("/room/" + data.code));
     }
   }
 
@@ -137,6 +139,26 @@ export default class CreateRoomPage extends Component {
     );
   }
 
+  renderUsernameTextField() {
+    if (this.props.update) {
+      return null;
+    }
+
+    return (
+      <Grid item xs={12} align="center">
+        <TextField
+          error={this.state.usernameError}
+          label="username"
+          placeholder="Enter a username"
+          value={this.state.username}
+          helperText={this.state.usernameError}
+          variant="outlined"
+          onChange={this.handleUsernameTextFieldChange}
+        />
+      </Grid>
+    );
+  }
+
   render() {
     const title = this.props.update ? "Update Room" : "Create a Room";
 
@@ -172,17 +194,7 @@ export default class CreateRoomPage extends Component {
             {title}
           </Typography>
         </Grid>
-        <Grid item xs={12} align="center">
-          <TextField
-            error={this.state.usernameError}
-            label="username"
-            placeholder="Enter a username"
-            value={this.state.username}
-            helperText={this.state.usernameError}
-            variant="outlined"
-            onChange={this.handleUsernameTextFieldChange}
-          />
-        </Grid>
+        {this.renderUsernameTextField()}
         <Grid item xs={12} align="center">
           <FormControl component="fieldset">
             <FormHelperText>
