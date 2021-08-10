@@ -120,7 +120,7 @@ export default class CreateRoomPage extends Component {
   }
 
   render() {
-    const title = this.props.update ? "Update Room" : "Create a Room";
+    const title = this.props.update ? "Update Room" : <div className="create-join-room-title"><h3>Create a Room</h3></div>;
 
     return (
       <Grid container spacing={1}>
@@ -143,7 +143,7 @@ export default class CreateRoomPage extends Component {
         <Grid item xs={12} align="center">
           <FormControl component="fieldset">
             <FormHelperText>
-              <div align="center">Guest Control of Playback State</div>
+              <div className="create-join-room-title"><h4>Pick a Swiping Mode</h4></div>
             </FormHelperText>
             <RadioGroup
               row
@@ -153,13 +153,13 @@ export default class CreateRoomPage extends Component {
               <FormControlLabel
                 value="true"
                 control={<Radio color="primary" />}
-                label="Play/Pause"
+                label="Explore"
                 labelPlacement="bottom"
               />
               <FormControlLabel
                 value="false"
                 control={<Radio color="secondary" />}
-                label="No Control"
+                label="Custom"
                 labelPlacement="bottom"
               />
             </RadioGroup>
@@ -178,7 +178,7 @@ export default class CreateRoomPage extends Component {
               }}
             />
             <FormHelperText>
-              <div align="center">Votes Required To Skip Song</div>
+              <div align="center">Number of User in Group</div>
             </FormHelperText>
           </FormControl>
         </Grid>
