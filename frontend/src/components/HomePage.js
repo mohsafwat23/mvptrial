@@ -24,12 +24,23 @@ export default class HomePage extends Component{
 
     renderHomePage(){
         return (
-            <Grid container spacing={3}>
+            <Grid container spacing={1}>
+              <div id="outvite-title">
                 <Grid item xs={12} align="center">
                     <Typography variant="h3" compact="h3">
-                        <div id="outvite-title"><h3>outvite</h3></div>
+                        <h2>OUT<span>&#62;</span>ITE</h2>
                     </Typography>
                 </Grid>
+              </div>
+              <br></br>
+              <div id="homepage-text">
+                <Grid item xs={12} align="left">
+                    <Typography variant="h3" compact="h3">
+                        <h3>Stop Wasting Time,<br></br> Start Enjoying It!</h3><br></br>
+                        <h4>Save time deciding on where to go out with friends and family!</h4><br></br>
+                    </Typography>
+                </Grid>
+              </div>
                 <Grid item xs={12} align="center">
                     <ButtonGroup disableElevation variant = "contained" color="primary">
                         <div id="join-a-room"><Button color="primary" to='/join' component={Link}><h3>Join a Room</h3></Button></div>
