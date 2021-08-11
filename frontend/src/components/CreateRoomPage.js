@@ -18,6 +18,8 @@ export default class CreateRoomPage extends Component {
     guestCanPause: true,
     update: false,
     roomCode: null,
+    username: "",
+    usernameError: "",
     updateCallback: () => {},
   };
 
@@ -26,6 +28,7 @@ export default class CreateRoomPage extends Component {
     this.state = {
       guestCanPause: this.props.guestCanPause,
       votesToSkip: this.props.votesToSkip,
+      username: this.props.username,
       errorMsg: "",
       successMsg: "",
     };
@@ -34,6 +37,8 @@ export default class CreateRoomPage extends Component {
     this.handleVotesChange = this.handleVotesChange.bind(this);
     this.handleGuestCanPauseChange = this.handleGuestCanPauseChange.bind(this);
     this.handleUpdateButtonPressed = this.handleUpdateButtonPressed.bind(this);
+    this.handleUsernameTextFieldChange =
+      this.handleUsernameTextFieldChange.bind(this);
   }
 
   handleVotesChange(e) {
@@ -49,20 +54,28 @@ export default class CreateRoomPage extends Component {
   }
 
   handleRoomButtonPressed() {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        votes_to_skip: this.state.votesToSkip,
-        guest_can_pause: this.state.guestCanPause,
-      }),
-    };
-    fetch("/api/create-room", requestOptions)
-      .then((response) => response.json())
-      .then((data) => this.props.history.push('/room/' + data.code));
+    if (this.state.username == "") {
+      this.setState({ usernameError: "invalid username" });
+    } else {
+      this.setState({ usernameError: "" });
+
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          votes_to_skip: this.state.votesToSkip,
+          guest_can_pause: this.state.guestCanPause,
+          host_username: this.state.username,
+        }),
+      };
+
+      fetch("/api/create-room", requestOptions)
+        .then((response) => response.json())
+        .then((data) => this.props.history.push("/room/" + data.code));
+    }
   }
 
-  handleUpdateButtonPressed(){
+  handleUpdateButtonPressed() {
     const requestOptions = {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -73,49 +86,77 @@ export default class CreateRoomPage extends Component {
       }),
     };
     fetch("/api/update-room", requestOptions).then((response) => {
-        if (response.ok) {
-          this.setState({
-            successMsg: "Room update successfully"
-          });
-        } else{
-          this.setState({
-            errorMsg: "Error updating room..."
+      if (response.ok) {
+        this.setState({
+          successMsg: "Room update successfully",
+        });
+      } else {
+        this.setState({
+          errorMsg: "Error updating room...",
         });
       }
       this.props.updateCallback();
     });
   }
-  
+
+  handleUsernameTextFieldChange(e) {
+    this.setState({
+      username: e.target.value,
+    });
+  }
 
   renderCreateButtons() {
-    return(<Grid container spacing={1}>
-      <div id="create-a-room-button2">
-      <Grid item xs={12} align="center">
-        <Button
-          onClick={this.handleRoomButtonPressed}
-        >
-          <h3>Create a Room</h3>
-        </Button>
+    return (
+      <Grid container spacing={1}>
+        <Grid item xs={12} align="center">
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={this.handleRoomButtonPressed}
+          >
+            Create A Room
+          </Button>
+        </Grid>
+        <Grid item xs={12} align="center">
+          <Button color="secondary" variant="contained" to="/" component={Link}>
+            Back
+          </Button>
+        </Grid>
       </Grid>
-      </div><br></br>
-      <Grid item xs={12} align="center">
-        <Button color="secondary" variant="contained" to="/" component={Link}>
-          Back
-        </Button>
-    </Grid>
-  </Grid>);
+    );
   }
 
   renderUpdateButtons() {
-    return(<Grid item xs={12} align="center">
-      <Button
-        color="primary"
-        variant="contained"
-        onClick={this.handleUpdateButtonPressed}
-      >
-        Update Room
-      </Button>
-    </Grid>
+    return (
+      <Grid item xs={12} align="center">
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={this.handleUpdateButtonPressed}
+        >
+          Update Room
+        </Button>
+      </Grid>
+    );
+  }
+
+  renderUsernameTextField() {
+    if (this.props.update) {
+      return null;
+    }
+
+    return (
+      <Grid item xs={12} align="center">
+        <TextField
+          error={this.state.usernameError}
+          label="username"
+          placeholder="Enter a username"
+          value={this.state.username}
+          helperText={this.state.usernameError}
+          variant="outlined"
+          onChange={this.handleUsernameTextFieldChange}
+        />
+      </Grid>
     );
   }
 
@@ -125,14 +166,28 @@ export default class CreateRoomPage extends Component {
     return (
       <Grid container spacing={1}>
         <Grid item xs={12} align="center">
-          <Collapse in={this.state.errorMsg != "" || this.state.successMsg != ""}>
+          <Collapse
+            in={this.state.errorMsg != "" || this.state.successMsg != ""}
+          >
             {this.state.successMsg != "" ? (
-            <Alert severity="success" 
-            onClose={() => {
-              this.setState({successMsg: ""})}}>{this.state.successMsg}</Alert>
+              <Alert
+                severity="success"
+                onClose={() => {
+                  this.setState({ successMsg: "" });
+                }}
+              >
+                {this.state.successMsg}
+              </Alert>
             ) : (
-            <Alert severity="error" onClose={() => {
-              this.setState({errorMsg: ""})}}>{this.state.errorMsg}</Alert>)}
+              <Alert
+                severity="error"
+                onClose={() => {
+                  this.setState({ errorMsg: "" });
+                }}
+              >
+                {this.state.errorMsg}
+              </Alert>
+            )}
           </Collapse>
         </Grid>
         <Grid item xs={12} align="center">
@@ -140,10 +195,11 @@ export default class CreateRoomPage extends Component {
             {title}
           </Typography>
         </Grid>
+        {this.renderUsernameTextField()}
         <Grid item xs={12} align="center">
           <FormControl component="fieldset">
             <FormHelperText>
-              <div className="create-join-room-title"><h4>Choose a Swiping Mode</h4></div>
+              <div className="create-join-room-title"><h4>Pick a Swiping Mode</h4></div>
             </FormHelperText>
             <RadioGroup
               row
@@ -178,11 +234,13 @@ export default class CreateRoomPage extends Component {
               }}
             />
             <FormHelperText>
-              <div align="center">Number of Users in Group</div>
+              <div align="center">Number of User in Group</div>
             </FormHelperText>
           </FormControl>
         </Grid>
-        {this.props.update ? this.renderUpdateButtons() : this.renderCreateButtons()}
+        {this.props.update
+          ? this.renderUpdateButtons()
+          : this.renderCreateButtons()}
       </Grid>
     );
   }
