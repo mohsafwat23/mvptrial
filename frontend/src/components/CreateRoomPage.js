@@ -89,15 +89,15 @@ export default class CreateRoomPage extends Component {
 
   renderCreateButtons() {
     return(<Grid container spacing={1}>
+      <div id="create-a-room-button2">
       <Grid item xs={12} align="center">
         <Button
-          color="primary"
-          variant="contained"
           onClick={this.handleRoomButtonPressed}
         >
-          Create A Room
+          <h3>Create a Room</h3>
         </Button>
       </Grid>
+      </div><br></br>
       <Grid item xs={12} align="center">
         <Button color="secondary" variant="contained" to="/" component={Link}>
           Back
@@ -143,7 +143,7 @@ export default class CreateRoomPage extends Component {
         <Grid item xs={12} align="center">
           <FormControl component="fieldset">
             <FormHelperText>
-              <div className="create-join-room-title"><h4>Pick a Swiping Mode</h4></div>
+              <div className="create-join-room-title"><h4>Choose a Swiping Mode</h4></div>
             </FormHelperText>
             <RadioGroup
               row
@@ -178,7 +178,7 @@ export default class CreateRoomPage extends Component {
               }}
             />
             <FormHelperText>
-              <div align="center">Number of User in Group</div>
+              <div align="center">Number of Users in Group</div>
             </FormHelperText>
           </FormControl>
         </Grid>

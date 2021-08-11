@@ -66,7 +66,7 @@ body {
 
 .card .name h3 {
   position: absolute;
-  color: #7857fe;
+  color: #000000;
   font-size: 18px;
   font-family: "Poppins";
   background-color: white;
@@ -75,6 +75,7 @@ body {
   width: 250px;
   margin: auto;
   padding: 10px;
+  text-align: left;
 }
 
 .card .rating h3 {
@@ -89,15 +90,9 @@ body {
   border-radius: 20px;
 }
 
-@import url("https://fonts.googleapis.com/css?family=Exo:400,700");
-
 * {
   margin: 0px;
   padding: 0px;
-}
-
-body {
-  font-family: "Exo", sans-serif;
 }
 
 .context {
@@ -111,6 +106,154 @@ body {
   color: #fff;
   font-size: 50px;
 }
+
+.leaveroom {
+  margin: auto;
+  width: 60%;
+  padding: 10px;
+}
+
+#outvite-title {
+  margin: 0;
+  padding: 0;
+}
+
+#outvite-title h2 {
+  font-family: "Poppins";
+  color: #7857fe;
+  font-size: 9vmax;
+  left: 0px;
+  top: 0px;
+}
+
+#outvite-title span {
+  font-family: "Poppins";
+  color: #000000;
+  font-size: 9vmax;
+  left: 0px;
+}
+
+#homepage-text {
+  margin: 0;
+  padding: 0;
+}
+
+#homepage-text h3 {
+  position: relative;
+  font-family: "Poppins";
+  color: #000000;
+  font-size: 4.5vmax;
+  left: 0px;
+  top: 30%;
+}
+#homepage-text h4 {
+  position: relative;
+  left: 0px;
+  top: 50%;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 3vmax;
+  letter-spacing: -0.0041em;
+  color: #7a7a7a;
+}
+
+#join-a-room {
+  background-color: #7857fe;
+  border-radius: 14px;
+  filter: drop-shadow(0px 3px 4px rgba(0, 0, 0, 0.25));
+  position: relative;
+  right: 20px;
+}
+
+#join-a-room h3 {
+  background-color: #7857fe;
+  font: "Poppins";
+  color: white;
+  font-size: 2vmax;
+  text-transform: capitalize;
+}
+
+#create-a-room {
+  background-color: #7857fe;
+  border-radius: 14px;
+  filter: drop-shadow(0px 3px 4px rgba(0, 0, 0, 0.25));
+  position: relative;
+  left: 4vmax;
+}
+
+#create-a-room h3 {
+  background-color: #7857fe;
+  font: "Poppins";
+  color: white;
+  font-size: 2vmax;
+  text-transform: capitalize;
+}
+
+.create-join-room-title {
+  font-family: "Poppins";
+  color: #000000;
+  font-size: 50px;
+  left: 4vmax;
+}
+
+h4 {
+  font: "Poppins";
+  font-size: 15px;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+#create-a-room-button2 {
+  background-color: #7857fe;
+  border-radius: 14px;
+  filter: drop-shadow(0px 3px 4px rgba(0, 0, 0, 0.25));
+  position: relative;
+  align-items: center;
+  margin: auto;
+}
+
+#create-a-room-button2 h3 {
+  background-color: #7857fe;
+  font: "Poppins";
+  color: white;
+  font-size: 2vmax;
+  text-transform: capitalize;
+}
+
+.top-circle {
+  display: inline-block;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 68px;
+  border-color: #7857fe;
+  background-color: rgba(0, 0, 0, 0);
+  position: absolute;
+  left: 1100px;
+  top: -251px;
+  pointer-events: none;
+  box-shadow: inset 0px 5px 4px rgba(0, 0, 0, 0.25);
+  filter: drop-shadow(0px 7px 4px rgba(0, 0, 0, 0.25));
+}
+
+/* .bottom-circle {
+  display: inline-block;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 50px;
+  border-color: #7857fe;
+  background-color: rgba(0, 0, 0, 0);
+  position: absolute;
+  top: -10vh;
+  left: -10vh;
+  pointer-events: none;
+  box-shadow: inset 0px 5px 4px rgba(0, 0, 0, 0.25);
+  filter: drop-shadow(0px 7px 4px rgba(0, 0, 0, 0.25));
+} */
+/* BACKGROUND */
 
 .area {
   background: #fcfcfc;
@@ -235,66 +378,4 @@ body {
     opacity: 0;
     border-radius: 50%;
   }
-}
-
-.leaveroom {
-  margin: auto;
-  width: 60%;
-  padding: 10px;
-}
-#outvite-title {
-  top: 0px;
-}
-
-#outvite-title h3 {
-  font-family: "Poppins";
-  color: #7857fe;
-  font-size: 20vw;
-  left: 10px;
-  filter: drop-shadow(0px 6px 4px rgba(0, 0, 0, 0.25));
-}
-
-#join-a-room {
-  background-color: #7857fe;
-  border-radius: 14px;
-  filter: drop-shadow(0px 6px 4px rgba(0, 0, 0, 0.25));
-  position: relative;
-  right: 20px;
-}
-
-#join-a-room h3 {
-  background-color: #7857fe;
-  font: "Poppins";
-  color: white;
-  font-size: 5vw;
-  text-transform: capitalize;
-}
-
-#create-a-room {
-  background-color: #7857fe;
-  border-radius: 14px;
-  filter: drop-shadow(0px 6px 4px rgba(0, 0, 0, 0.25));
-  position: relative;
-  left: 40px;
-}
-
-#create-a-room h3 {
-  background-color: #7857fe;
-  font: "Poppins";
-  color: white;
-  font-size: 5vw;
-  text-transform: capitalize;
-}
-
-.create-join-room-title {
-  font-family: "Poppins";
-  color: #7857fe;
-  font-size: 50px;
-  left: 10px;
-}
-
-h4 {
-  font: "Poppins";
-  font-size: 15px;
-  color: rgba(0, 0, 0, 0.54);
 }
