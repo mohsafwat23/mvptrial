@@ -2,10 +2,9 @@ from django.http.response import JsonResponse
 from django.shortcuts import render
 from rest_framework import generics, serializers, status
 from .serializers import RoomSerializer, CreateRoomSerializer, UpdateRoomSerializer, RestaurantSerializer
-from .models import Room, User
+from .models import Room, User, Restaurant
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from restaurants.models import Restaurant
 from rest_framework.decorators import api_view
 import random
 
@@ -16,6 +15,7 @@ import random
 class RoomView(generics.ListAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
+    
 
 
 class GetRoom(APIView):

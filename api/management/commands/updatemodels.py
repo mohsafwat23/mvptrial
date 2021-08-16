@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 import pandas as pd
-from restaurants.models import Restaurant
+from api.models import Restaurant
 class Command(BaseCommand):
     help = 'import booms'
 
