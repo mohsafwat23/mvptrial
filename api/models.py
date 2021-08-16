@@ -28,7 +28,7 @@ class Restaurant(models.Model):
     menu = models.TextField(null=True)
     def __str__(self):
         return self.name
-        
+
 class Room(models.Model):
     code = models.CharField(
         max_length=8, default=generate_unique_code, unique=True)
@@ -37,7 +37,7 @@ class Room(models.Model):
     guest_can_pause = models.BooleanField(null=False, default=False)
     votes_to_skip = models.IntegerField(null=False, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
-    restaurants = models.ManyToManyField(Restaurant, default="None")
+    restaurant = models.ManyToManyField(Restaurant, default="None")
 
 class User(models.Model):
     username = models.CharField(max_length=50, unique=True)

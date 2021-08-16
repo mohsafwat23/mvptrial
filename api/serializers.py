@@ -2,12 +2,18 @@ from rest_framework import serializers
 from .models import Room, User
 from .models import Restaurant
 
+class RestaurantSerializer2(serializers.ModelSerializer):
+    class Meta:
+        model = Restaurant
+        fields = ('id','cuisine', 'name', 'rating', 'image', 'map_url', 'price', 'menu')
+
 
 class RoomSerializer(serializers.ModelSerializer):
+    restaurant = RestaurantSerializer2(read_only=True, many=True)
     class Meta:
         model = Room
         fields = ('id', 'code', 'host', 'guest_can_pause',
-                  'votes_to_skip', 'created_at', 'host_username')
+                  'votes_to_skip', 'created_at', 'host_username', 'restaurant')
 
 
 class CreateRoomSerializer(serializers.ModelSerializer):

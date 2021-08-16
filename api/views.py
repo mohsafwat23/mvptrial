@@ -8,15 +8,12 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 import random
 
-
 # Create your views here.
-
 
 class RoomView(generics.ListAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
     
-
 
 class GetRoom(APIView):
     serializer_class = RoomSerializer
