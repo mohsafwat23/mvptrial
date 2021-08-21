@@ -16,7 +16,8 @@ def generate_unique_code():
             break
 
     return code
-    
+
+
 class Restaurant(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     cuisine = models.TextField(null=True)
@@ -26,8 +27,10 @@ class Restaurant(models.Model):
     map_url = models.TextField(null=True)
     price = models.TextField(null=True)
     menu = models.TextField(null=True)
+
     def __str__(self):
         return self.name
+
 
 class Room(models.Model):
     code = models.CharField(
@@ -39,9 +42,8 @@ class Room(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     restaurant = models.ManyToManyField(Restaurant, default="None")
 
+
 class User(models.Model):
     username = models.CharField(max_length=50, unique=True)
     session_key = models.CharField(max_length=50, unique=True)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
-
-
