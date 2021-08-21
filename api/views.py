@@ -10,10 +10,24 @@ import random
 
 # Create your views here.
 
+
+def addRestaurants(room):
+    # change to how many random restaurants you want
+    num_rest = 25
+
+    restaurants = list(Restaurant.objects.all())
+
+    random_restaurants = random.sample(restaurants, num_rest)
+    for item in random_restaurants:
+        room.restaurant.add(item)
+
+    room.save()
+
+
 class RoomView(generics.ListAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
-    
+
 
 class GetRoom(APIView):
     serializer_class = RoomSerializer
@@ -83,7 +97,10 @@ class CreateRoomView(APIView):
             else:
                 room = Room(host=host, guest_can_pause=guest_can_pause,
                             votes_to_skip=votes_to_skip, host_username=host_username)
+
                 room.save()
+                addRestaurants(room)
+
                 user = User(username=host_username,
                             session_key=host, room=room)
                 user.save()
@@ -151,5 +168,5 @@ class UpdateRoom(APIView):
 def restaurants(request):
     restaurants = list(Restaurant.objects.all())
     restaurants = random.sample(restaurants, 25)
-    serializer = RestaurantSerializer(restaurants, many =True)
+    serializer = RestaurantSerializer(restaurants, many=True)
     return Response(serializer.data)
