@@ -8,7 +8,7 @@ export default class Room extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            restaurantsList: [],
+            allrestaurants: [],
             //name:'',
             //image:'',
             votesToSkip: 2,
@@ -24,7 +24,7 @@ export default class Room extends Component {
         this.renderSettings=this.renderSettings.bind(this);
         this.getRoomDetails= this.getRoomDetails.bind(this);
         this.getRoomDetails();
-        this.fetchCards = this.fetchCards.bind(this);
+        //this.fetchCards = this.fetchCards.bind(this);
     }
 
     getRoomDetails(){
@@ -39,6 +39,7 @@ export default class Room extends Component {
         
         }).then((data) => {
             this.setState({
+                allrestaurants: data.restaurant,
                 votesToSkip: data.votes_to_skip,
                 guestCanPause: data.guest_can_pause,
                 isHost: data.is_host,
@@ -62,26 +63,6 @@ export default class Room extends Component {
         this.setState({
             showSettings: value,
         })
-    }
-
-    componentDidMount(){
-        this.fetchCards()
-    }
-
-    fetchCards(){
-        console.log('Fetching...')
-
-        fetch('/api/restaurants')
-        .then(response => response.json())
-        .then(data => {
-            this.setState({
-                restaurantsList : data,
-                //id: data[0].id,
-                //name: data[0].name,
-                //cuisine: data[0].cuisine,
-                //image: data[0].image,
-            });
-        });
     }
 
 
@@ -128,7 +109,7 @@ export default class Room extends Component {
     
 
     render() {
-        const characters = this.state.restaurantsList
+        const rests = this.state.allrestaurants
 
         const swiped = (direction, nameToDelete) => {
             console.log('removing: ' + nameToDelete)
@@ -151,11 +132,11 @@ export default class Room extends Component {
             <Grid item xs={12} align ="center">
             <div>
                <div className='cardContainer'>
-                {characters.map((character)=>
-                    <TinderCard className='swipe' key={character.id} onSwipe={(dir) => swiped(dir, character.name)} onCardLeftScreen={() => outOfFrame(character.name)}>
-                        <div style={{ backgroundImage: 'url(' + character.image + ')' }} className='card'>
-                        <div className="name"><h3>{character.name}</h3></div>
-                        <div className="rating"><h3>&nbsp;&nbsp;{ character.rating}/5⭐️</h3></div>
+                {rests.map((restaurantcard)=>
+                    <TinderCard className='swipe' key={restaurantcard.id} onSwipe={(dir) => swiped(dir, restaurantcard.name)} onCardLeftScreen={() => outOfFrame(restaurantcard.name)}>
+                        <div style={{ backgroundImage: 'url(' + restaurantcard.image + ')' }} className='card'>
+                        <div className="name"><h3>{restaurantcard.name}</h3></div>
+                        <div className="rating"><h3>&nbsp;&nbsp;{ restaurantcard.rating}/5⭐️</h3></div>
                         </div>
                     </TinderCard>
                     )
