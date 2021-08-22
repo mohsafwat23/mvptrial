@@ -148,9 +148,12 @@ export default class Room extends Component {
                   >
                     <div className="name">
                       <h3>{restaurantcard.name}</h3>
+                      {restaurantcard.price != "nan" ?(
                       <h4>
                         {restaurantcard.cuisine} - {restaurantcard.price}
                       </h4>
+                      ):<h4>{restaurantcard.cuisine}
+                          </h4>}
                     </div>
                     <div className="rating">
                       <h3>&nbsp;&nbsp;{restaurantcard.rating}/5⭐️</h3>
@@ -164,13 +167,16 @@ export default class Room extends Component {
                     >
                       Directions
                     </Button>
+                    {restaurantcard.menu != "nan" ?(
                     <Button
                       variant="contained"
                       color="tertiary"
                       onClick={() => window.open(restaurantcard.menu)}
+                      
                     >
                       Menu
                     </Button>
+                    ):""}
                   </div>
                 </TinderCard>
               ))}
