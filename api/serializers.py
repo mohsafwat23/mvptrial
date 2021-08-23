@@ -2,12 +2,19 @@ from rest_framework import serializers
 from .models import Room, User
 from .models import Restaurant
 
+#the serializers turn complex data from the django database to a list of jsons that can be easily fetched and rendered
+
+#serializer for the restaurant model
 class RestaurantSerializer2(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
         fields = ('id','cuisine', 'name', 'rating', 'image', 'map_url', 'price', 'menu')
 
 
+#serializer for the room model
+#the restaurant serializer is called within to serialize the restaurant objects within each room
+#to see this, go to localhost/api/room
+#todo : remove unnecessary fields
 class RoomSerializer(serializers.ModelSerializer):
     restaurant = RestaurantSerializer2(read_only=True, many=True)
     class Meta:
@@ -15,13 +22,18 @@ class RoomSerializer(serializers.ModelSerializer):
         fields = ('id', 'code', 'host', 'guest_can_pause',
                   'votes_to_skip', 'created_at', 'host_username', 'restaurant')
 
-
+#serializer for creating the room model
+#this serializes what the user chooses when creating a room
+#follows CRUD method
+#todo : remove unnecessary fields
 class CreateRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
         fields = ('guest_can_pause', 'votes_to_skip', 'host_username')
 
 
+#updating the room serializer
+#this is still under construction, since we want the update room to just update the restaurants inside each room
 class UpdateRoomSerializer(serializers.ModelSerializer):
     code = serializers.CharField(validators=[])
 
@@ -29,14 +41,8 @@ class UpdateRoomSerializer(serializers.ModelSerializer):
         model = Room
         fields = ('guest_can_pause', 'votes_to_skip', 'code')
 
-
-class RestaurantSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Restaurant
-        fields = ('id','cuisine', 'name', 'rating', 'image', 'map_url', 'price', 'menu')
-
-
+#users serializer
+#users Yuanling should document
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:

@@ -1,12 +1,11 @@
 from enum import unique
-#from mvp.api.views import restaurants
-#from mvp.api.views import restaurants
 from django.db import models
 import string
 import random
 import uuid
 
-
+#generate a UNIQUE code for the room with all uppercase letters with a letter count of 6
+#the function is called in the room models code field
 def generate_unique_code():
     length = 6
 
@@ -17,7 +16,8 @@ def generate_unique_code():
 
     return code
 
-
+#a model for the restaurants and its specific field
+#this model is linked with the updatemodels file, so that we can collect the restaurants from the csv
 class Restaurant(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     cuisine = models.TextField(null=True)
@@ -31,7 +31,9 @@ class Restaurant(models.Model):
     def __str__(self):
         return self.name
 
-
+#room model is where the users will swipe
+#it has a ManyToManyField that links the room with the restaurants model
+#TO DO: remove unnecessary fields 
 class Room(models.Model):
     code = models.CharField(
         max_length=8, default=generate_unique_code, unique=True)
@@ -42,7 +44,7 @@ class Room(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     restaurant = models.ManyToManyField(Restaurant, default="None")
 
-
+#users Yuanling should document
 class User(models.Model):
     username = models.CharField(max_length=50, unique=True)
     session_key = models.CharField(max_length=50, unique=True)
