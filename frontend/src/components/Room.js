@@ -121,6 +121,9 @@ export default class Room extends Component {
       <Grid container spacing={1}>
         <div className="leaveroom">
           <Grid item xs={12} align="center">
+            <div className="RoomCode">
+              <h3>Room Code: {this.roomCode}</h3>
+            </div>
             <Button
               color="secondary"
               variant="contained"
@@ -148,35 +151,37 @@ export default class Room extends Component {
                   >
                     <div className="name">
                       <h3>{restaurantcard.name}</h3>
-                      {restaurantcard.price != "nan" ?(
-                      <h4>
-                        {restaurantcard.cuisine} - {restaurantcard.price}
-                      </h4>
-                      ):<h4>{restaurantcard.cuisine}
-                          </h4>}
+                      {restaurantcard.price != "nan" ? (
+                        <h4>
+                          {restaurantcard.cuisine} - {restaurantcard.price}
+                        </h4>
+                      ) : (
+                        <h4>{restaurantcard.cuisine}</h4>
+                      )}
+                      <div id="room-buttons">
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={() => window.open(restaurantcard.map_url)}
+                        >
+                          Directions
+                        </Button>
+                        {restaurantcard.menu != "nan" ? (
+                          <Button
+                            variant="contained"
+                            color="tertiary"
+                            onClick={() => window.open(restaurantcard.menu)}
+                          >
+                            Menu
+                          </Button>
+                        ) : (
+                          ""
+                        )}
+                      </div>
                     </div>
                     <div className="rating">
                       <h3>&nbsp;&nbsp;{restaurantcard.rating}/5⭐️</h3>
                     </div>
-                  </div>
-                  <div id="room-buttons">
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => window.open(restaurantcard.map_url)}
-                    >
-                      Directions
-                    </Button>
-                    {restaurantcard.menu != "nan" ?(
-                    <Button
-                      variant="contained"
-                      color="tertiary"
-                      onClick={() => window.open(restaurantcard.menu)}
-                      
-                    >
-                      Menu
-                    </Button>
-                    ):""}
                   </div>
                 </TinderCard>
               ))}
