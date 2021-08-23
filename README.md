@@ -13,10 +13,12 @@ Tools and packages required to successfully install this project.
 
 2) Install npm and node.js
 
-For Windows 
+For Windows
+
 3) Python 3.8 and up [Install](https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-programming-environment-on-an-ubuntu-20-04-server)
 
 For MacOS
+
 3) Python 3.8 and up [Install](https://docs.python-guide.org/starting/install3/osx/)
 
 Note: Skip step 1 if you are a MacOS user.
@@ -27,7 +29,6 @@ A step by step list of commands / guide that informs how to install an instance 
 !!!! ASK FOR YOUR BRANCH NAME !!!!
 
 `git clone -b {your_branch_name} https://github.com/outvite/eir.git`
-
 
 
 For Linux
@@ -62,7 +63,9 @@ Install Dependencies
 && 
 
 `cd to frontend and do npm install to install all dependencies`
+
 `npm init -y`
+
 `npm install`
 
 ## Run code
