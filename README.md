@@ -11,11 +11,13 @@ Tools and packages required to successfully install this project.
 
 1) Linux [Install](https://youtu.be/xzgwDbe7foQ) 
 
+2) Install npm and node.js
+
 For Windows 
-2) Python 3.8 and up [Install](https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-programming-environment-on-an-ubuntu-20-04-server)
+3) Python 3.8 and up [Install](https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-programming-environment-on-an-ubuntu-20-04-server)
 
 For MacOS
-2) Python 3.8 and up [Install](https://docs.python-guide.org/starting/install3/osx/)
+3) Python 3.8 and up [Install](https://docs.python-guide.org/starting/install3/osx/)
 
 Note: Skip step 1 if you are a MacOS user.
 
@@ -57,40 +59,13 @@ Activate Your Virtual Environment
 Install Dependencies
 `pip install -r requirements.txt`
 
-# mvptrial
-Install npm and node.js
+&& 
 
-if you want make a virtual env, you can make one in the working directrory !
+`cd to frontend and do npm install to install all dependencies`
+`npm init -y`
+`npm install`
 
-**Setup**
+## Run code
+`python manage.py makemigrations`
 
-pip install -r requirements.txt
-
-python manage.py makemigrations
-
-python manage.py migrate
-
-
-In another terminal, cd to frontend
-
-npm init -y
-
-npm i webpack webpack-cli --save-dev
-
-npm i @babel/core babel-loader @babel/preset-env @babel/preset-react --save-dev
-
-npm i react react-dom --save-dev
-
-npm install @material-ui/core
-
-npm install @material-ui/lab
-
-npm install @babel/plugin-proposal-class-properties
-
-npm install react-router-dom
-
-npm install @material-ui/icons
-
-npm install --save react-tinder-card --legacy-peer-deps 
-
-npm run dev
+`python manage.py migrate`
