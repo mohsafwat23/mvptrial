@@ -76,6 +76,8 @@ Install Dependencies
 
 `python manage.py migrate --run-syncdb`
 
+`python manage.py updatemodels`
+
 In another terminal
 
 `activate your venv`
