@@ -146,6 +146,8 @@ class LeaveRoom(APIView):
             if len(room_results) > 0:
                 room = room_results[0]
                 room.delete()
+            curr_user = User.objects.get(session_key=self.request.session.session_key)
+            curr_user.delete()
 
         return Response({'message': 'success'}, status=status.HTTP_200_OK)
 
@@ -161,8 +163,7 @@ class UpdateRoom(APIView):
             self.request.session.create()
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            guest_can_pause = serializer.data.get('guest_can_pause')
-            votes_to_skip = serializer.data.get('votes_to_skip')
+            #swipedright = serializer.data.get('swipedright')
             code = serializer.data.get('code')
 
             queryset = Room.objects.filter(code=code)
@@ -170,13 +171,12 @@ class UpdateRoom(APIView):
                 return Response({'msg': 'Invalid Room'}, status=status.HTTP_404_NOT_FOUND)
 
             room = queryset[0]
-            user_id = self.request.session.session_key
-            if room.host != user_id:
-                return Response({'msg': 'not host of room'}, status=status.HTTP_403_FORBIDDEN)
+            # user_id = self.request.session.session_key
+            # if room.host != user_id:
+            #     return Response({'msg': 'not host of room'}, status=status.HTTP_403_FORBIDDEN)
 
-            room.guest_can_pause = guest_can_pause
-            room.votes_to_skip = votes_to_skip
-            room.save(update_fields=['guest_can_pause', 'votes_to_skip'])
+            #room.swipedright = swipedright
+            #room.save(update_fields=['swipedright'])
             return Response(RoomSerializer(room).data, status=status.HTTP_200_OK)
 
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)

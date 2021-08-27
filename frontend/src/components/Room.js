@@ -18,9 +18,9 @@ export default class Room extends Component {
     };
     this.roomCode = this.props.match.params.roomCode;
     this.leaveButtonPressed = this.leaveButtonPressed.bind(this);
-    this.updateShowSettings = this.updateShowSettings.bind(this);
-    this.renderSettingsButton = this.renderSettingsButton.bind(this);
-    this.renderSettings = this.renderSettings.bind(this);
+    //this.updateShowSettings = this.updateShowSettings.bind(this);
+    //this.renderSettingsButton = this.renderSettingsButton.bind(this);
+    //this.renderSettings = this.renderSettings.bind(this);
     this.getRoomDetails = this.getRoomDetails.bind(this);
     this.getRoomDetails();
     //this.fetchCards = this.fetchCards.bind(this);
@@ -88,19 +88,19 @@ export default class Room extends Component {
     );
   }
 
-  renderSettingsButton() {
-    return (
-      <Grid item xs={12} align="center">
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => this.updateShowSettings(true)}
-        >
-          Settings
-        </Button>
-      </Grid>
-    );
-  }
+  // renderSettingsButton() {
+  //   return (
+  //     <Grid item xs={12} align="center">
+  //       <Button
+  //         variant="contained"
+  //         color="primary"
+  //         onClick={() => this.updateShowSettings(true)}
+  //       >
+  //         Settings
+  //       </Button>
+  //     </Grid>
+  //   );
+  // }
 
   render() {
     const rests = this.state.allrestaurants;
@@ -114,9 +114,6 @@ export default class Room extends Component {
       console.log(name + " left the screen!");
     };
 
-    if (this.state.showSettings) {
-      return this.renderSettings();
-    }
     return (
       <Grid container spacing={1}>
         <div className="leaveroom">
@@ -140,7 +137,7 @@ export default class Room extends Component {
                 <TinderCard
                   className="swipe"
                   key={restaurantcard.id}
-                  onSwipe={(dir) => swiped(dir, restaurantcard.name)}
+                  onSwipe={(dir) => {swiped(dir, restaurantcard.name)}}
                   onCardLeftScreen={() => outOfFrame(restaurantcard.name)}
                 >
                   <div

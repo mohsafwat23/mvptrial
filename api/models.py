@@ -4,6 +4,8 @@ import string
 import random
 import uuid
 
+from django.db.models.fields.related import ForeignKey
+
 #generate a UNIQUE code for the room with all uppercase letters with a letter count of 6
 #the function is called in the room models code field
 def generate_unique_code():
@@ -43,6 +45,11 @@ class Room(models.Model):
     votes_to_skip = models.IntegerField(null=False, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     restaurant = models.ManyToManyField(Restaurant, default="None")
+
+class SwipedRight(models.Model):
+    name = models.TextField(null=True)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE,default="")
+
 
 #users Yuanling should document
 class User(models.Model):

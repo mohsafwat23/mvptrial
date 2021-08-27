@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from .models import Room, User
-from .models import Restaurant
+from .models import Room, User, Restaurant, SwipedRight
 
 #the serializers turn complex data from the django database to a list of jsons that can be easily fetched and rendered
 
@@ -9,6 +8,11 @@ class RestaurantSerializer2(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
         fields = ('id','cuisine', 'name', 'rating', 'image', 'map_url', 'price', 'menu')
+
+class SwipedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SwipedRight
+        fields = ('name')
 
 
 #serializer for the room model
@@ -19,8 +23,7 @@ class RoomSerializer(serializers.ModelSerializer):
     restaurant = RestaurantSerializer2(read_only=True, many=True)
     class Meta:
         model = Room
-        fields = ('id', 'code', 'host', 'guest_can_pause',
-                  'votes_to_skip', 'created_at', 'host_username', 'restaurant')
+        fields = '__all__'
 
 #serializer for creating the room model
 #this serializes what the user chooses when creating a room
@@ -39,7 +42,7 @@ class UpdateRoomSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Room
-        fields = ('guest_can_pause', 'votes_to_skip', 'code')
+        fields = ('code')
 
 #users serializer
 #users Yuanling should document
