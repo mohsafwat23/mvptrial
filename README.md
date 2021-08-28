@@ -85,3 +85,9 @@ In another terminal
 `cd frontend`
 
 `npm run dev`
+
+## Make a redis server
+
+`sudo apt-get install redis-server`
+
+`redis-server`
