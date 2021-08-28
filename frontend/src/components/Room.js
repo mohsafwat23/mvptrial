@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import { Button, Grid, List, Typography } from "@material-ui/core";
 import CreateRoomPage from "./CreateRoomPage";
 import TinderCard from "react-tinder-card";
@@ -23,7 +23,6 @@ export default class Room extends Component {
     //this.renderSettings = this.renderSettings.bind(this);
     this.getRoomDetails = this.getRoomDetails.bind(this);
     this.getRoomDetails();
-    //this.fetchCards = this.fetchCards.bind(this);
   }
 
   getRoomDetails() {
@@ -44,6 +43,16 @@ export default class Room extends Component {
           isHost: data.is_host,
         });
       });
+  }
+
+  componentDidMount(){
+    const roomSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/room/'
+        + this.roomCode 
+    
+    );
   }
 
   leaveButtonPressed() {
