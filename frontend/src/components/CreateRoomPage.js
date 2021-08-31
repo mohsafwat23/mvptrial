@@ -155,6 +155,7 @@ export default class CreateRoomPage extends Component {
           helperText={this.state.usernameError}
           variant="outlined"
           onChange={this.handleUsernameTextFieldChange}
+          autoFocus
         />
       </Grid>
     );

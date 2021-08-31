@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Button, Grid, List, Typography } from "@material-ui/core";
 import CreateRoomPage from "./CreateRoomPage";
 import TinderCard from "react-tinder-card";
+let globalRoomSocket;
 
 export default class Room extends Component {
   constructor(props) {
@@ -51,8 +52,21 @@ export default class Room extends Component {
         + window.location.host
         + '/ws/room/'
         + this.roomCode 
-    
     );
+    
+    roomSocket.onmessage = (event) => {
+
+      console.log(event.data);
+      var data = JSON.parse(e.data);
+      var message = {text: data.message, date: data.utc_time};
+	    message.date = moment(message.date).local().format('YYYY-MM-DD HH:mm:ss');
+	    
+      let updated_messages = [...this.state.messages];
+      updated_messages.push(message);
+      this.setState({messages: updated_messages});
+    };
+
+    globalRoomSocket = roomSocket;
   }
 
   leaveButtonPressed() {
@@ -114,13 +128,18 @@ export default class Room extends Component {
   render() {
     const rests = this.state.allrestaurants;
 
+      
+    const outOfFrame = (name) => {
+      console.log(name + " left the screen!");
+    };
+
     const swiped = (direction, nameToDelete) => {
       console.log("removing: " + nameToDelete);
       this.setState({ lastDirection: direction });
-    };
-
-    const outOfFrame = (name) => {
-      console.log(name + " left the screen!");
+    
+      globalRoomSocket.send(JSON.stringify({
+        'restaurant': nameToDelete,
+      }));
     };
 
     return (
@@ -146,7 +165,7 @@ export default class Room extends Component {
                 <TinderCard
                   className="swipe"
                   key={restaurantcard.id}
-                  onSwipe={(dir) => {swiped(dir, restaurantcard.name)}}
+                  onSwipe={(dir) => swiped(dir, restaurantcard.name)}
                   onCardLeftScreen={() => outOfFrame(restaurantcard.name)}
                 >
                   <div

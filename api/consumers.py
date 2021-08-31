@@ -2,8 +2,8 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 
 class SwipingRoomConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        print('connected')
         self.room_name = self.scope['url_route']['kwargs']['room_name']
+        self.room_name = self.room_name.replace(' ', '_')
         self.room_group_name = 'room_%s' % self.room_name
         
         await self.channel_layer.group_add(
@@ -12,6 +12,7 @@ class SwipingRoomConsumer(AsyncWebsocketConsumer):
         )
 
         await self.accept()
+        print('connected')
     
     async def disconnect(self, close_code):
         
@@ -20,4 +21,15 @@ class SwipingRoomConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
 
-    pass
+    async def receive(self, text_data):
+        print(text_data)
+        text_data_json = json.loads(text_data)
+        message = text_data_json['message']
+
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'chat_message',
+                'message': message
+            }
+        )
