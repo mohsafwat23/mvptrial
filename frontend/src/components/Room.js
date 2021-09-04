@@ -108,6 +108,24 @@ export default class Room extends Component {
     const swiped = (direction, nameToDelete) => {
       console.log("removing: " + nameToDelete);
       this.setState({ lastDirection: direction });
+
+      
+      $.ajax({
+        
+        url: "/api/swipe",
+        type: "POST",
+        dataType: 'json',
+        data: { "nameToDelete" : nameToDelete},
+        cache: false,
+
+        success: function(data) {
+          this.setState({data: data});
+        }.bind(this),
+        
+        error: function(xhr, status, err) {
+          console.error(this.props.url, status, err.toString());
+        }.bind(this)
+      });
     };
 
     const outOfFrame = (name) => {

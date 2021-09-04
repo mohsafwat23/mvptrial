@@ -1,4 +1,5 @@
 from django.http.response import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from rest_framework import generics, serializers, status
 from .serializers import RoomSerializer, CreateRoomSerializer, UpdateRoomSerializer
@@ -7,6 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 import random
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -163,7 +165,7 @@ class UpdateRoom(APIView):
             self.request.session.create()
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            #swipedright = serializer.data.get('swipedright')
+            right = serializer.data.get('swipedright')
             code = serializer.data.get('code')
 
             queryset = Room.objects.filter(code=code)
@@ -175,16 +177,21 @@ class UpdateRoom(APIView):
             # if room.host != user_id:
             #     return Response({'msg': 'not host of room'}, status=status.HTTP_403_FORBIDDEN)
 
-            #room.swipedright = swipedright
+            #room.1
+            # right = swipedright
             #room.save(update_fields=['swipedright'])
             return Response(RoomSerializer(room).data, status=status.HTTP_200_OK)
 
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
 
+@csrf_exempt
+def GetSwipe(request):
+    is_ajax = request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+    if not is_ajax:
+        raise Http404
 
-# @api_view(['GET'])
-# def restaurants(request):
-#     restaurants = list(Restaurant.objects.all())
-#     restaurants = random.sample(restaurants, 25)
-#     serializer = RestaurantSerializer(restaurants, many=True)
-#     return Response(serializer.data)
+    swiped_card = request.POST.get('nameToDelete')
+    print(swiped_card)
+
+
+    return JsonResponse({"sdkjfhdkj" : "sdkjfhdskjfh"})
