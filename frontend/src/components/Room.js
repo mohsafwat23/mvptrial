@@ -102,8 +102,6 @@ export default class Room extends Component {
   //   );
   // }
 
-  
-
   render() {
 
     setInterval(() => {
@@ -116,10 +114,13 @@ export default class Room extends Component {
         cache: false,
 
         success: function(data) {
+          console.log(data);
 
-          if (data.is_match) {
-            
-          }
+
+          if (data.is_match) {}
+
+
+
 
         }.bind(this),
 
