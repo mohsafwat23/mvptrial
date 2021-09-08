@@ -10,5 +10,6 @@ urlpatterns = [
     path('user-in-room', UserInRoom.as_view()),
     path('leave-room', LeaveRoom.as_view()),
     path('update-room', UpdateRoom.as_view()),
-    path('swipe', GetSwipe)
+    path('swipe', GetSwipe),
+    path('check/match', CheckMatch)
 ]

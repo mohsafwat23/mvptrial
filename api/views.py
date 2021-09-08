@@ -2,13 +2,18 @@ from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from rest_framework import generics, serializers, status
+from django.core import serializers
+
 from .serializers import RoomSerializer, CreateRoomSerializer, UpdateRoomSerializer
-from .models import Room, User, Restaurant
+from .models import *
+from .utils import check_for_match
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 import random
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
@@ -67,9 +72,13 @@ class JoinRoom(APIView):
         #lookup the room by the code 
         if code != None:
             room_result = Room.objects.filter(code=code)
+
             #make sure room is unique
             if len(room_result) > 0:
-                room = room_result[0]
+                room = room_result[0]    
+                room.head_count += 1
+                room.save()
+                print(room.head_count)
                 #new dictionary values that is the room code and username
                 self.request.session['room_code'] = code
                 self.request.session["username"] = username
@@ -145,11 +154,14 @@ class LeaveRoom(APIView):
             self.request.session.pop('room_code')
             host_id = self.request.session.session_key
             room_results = Room.objects.filter(host=host_id)
+
             if len(room_results) > 0:
+                # TODO add a new host 
                 room = room_results[0]
                 room.delete()
             curr_user = User.objects.get(session_key=self.request.session.session_key)
             curr_user.delete()
+            room_results.head_count -= 1
 
         return Response({'message': 'success'}, status=status.HTTP_200_OK)
 
@@ -190,8 +202,43 @@ def GetSwipe(request):
     if not is_ajax:
         raise Http404
 
-    swiped_card = request.POST.get('nameToDelete')
-    print(swiped_card)
+    swiped_card_id = request.POST.get('uniqueCardID')
+    room_code = request.POST.get('roomCode')
+    
+    swiped_card_object = get_object_or_404(Restaurant, id=swiped_card_id)
+    room = get_object_or_404(Room, code=room_code)
+
+    new_right_swipe = RoomRightSwipes.objects.create(room=room)
+    new_right_swipe.restaurant.add(swiped_card_object)
+    new_right_swipe.save()
 
 
-    return JsonResponse({"sdkjfhdkj" : "sdkjfhdskjfh"})
+    return JsonResponse({"roomCode" : "fhg"})
+
+
+@csrf_exempt
+def CheckMatch(request):
+
+    is_ajax = request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+    if not is_ajax:
+        raise Http404
+
+    roomCode = request.POST.get('roomCode')
+    room = get_object_or_404(Room, code=roomCode)
+
+    is_match, match = check_for_match(room)
+
+    if not is_match:
+        return JsonResponse({"is_match" : is_match})
+
+    return JsonResponse({
+        "is_match" : is_match,
+        "name" : match.name,
+        "map_url" : match.map_url,
+        "image" : match.image,
+        "cuisine" : match.cuisine,
+        "price" : match.price,
+        "menu" : match.menu,
+        "rating" : match.rating,
+        "id" : match.id
+    })

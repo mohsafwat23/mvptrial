@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Room, User, Restaurant, SwipedRight
+from .models import Room, User, Restaurant, RoomRightSwipes
 
 #the serializers turn complex data from the django database to a list of jsons that can be easily fetched and rendered
 
@@ -8,12 +8,6 @@ class RestaurantSerializer2(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
         fields = ('id','cuisine', 'name', 'rating', 'image', 'map_url', 'price', 'menu')
-
-class SwipedSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SwipedRight
-        fields = ('name')
-
 
 #serializer for the room model
 #the restaurant serializer is called within to serialize the restaurant objects within each room

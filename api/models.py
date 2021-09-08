@@ -45,14 +45,25 @@ class Room(models.Model):
     votes_to_skip = models.IntegerField(null=False, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     restaurant = models.ManyToManyField(Restaurant, default="None")
+    head_count = models.IntegerField(null=False, default=1)
 
+
+    def __str__(self):
+        return f'{self.code} - {self.host_username} '
+
+"""
 class SwipedRight(models.Model):
     name = models.TextField(null=True)
     room = models.ForeignKey(Room, on_delete=models.CASCADE,default="")
+"""
+
+class RoomRightSwipes(models.Model):
+    restaurant = models.ManyToManyField(Restaurant, default="None")
+    room = models.ForeignKey(Room, default="None", on_delete=models.CASCADE)
 
 
 #users Yuanling should document
 class User(models.Model):
-    username = models.CharField(max_length=50, unique=True)
+    username = models.CharField(max_length=50, unique=False)
     session_key = models.CharField(max_length=50, unique=True)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)

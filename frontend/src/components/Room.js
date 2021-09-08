@@ -102,30 +102,59 @@ export default class Room extends Component {
   //   );
   // }
 
+  
+
   render() {
-    const rests = this.state.allrestaurants;
 
-    const swiped = (direction, nameToDelete) => {
-      console.log("removing: " + nameToDelete);
-      this.setState({ lastDirection: direction });
-
-      
+    setInterval(() => {
       $.ajax({
-        
-        url: "/api/swipe",
+          
+        url: "/api/check/match",
         type: "POST",
         dataType: 'json',
-        data: { "nameToDelete" : nameToDelete},
+        data: { "roomCode" : this.props.match.params.roomCode},
         cache: false,
 
         success: function(data) {
-          this.setState({data: data});
+
+          if (data.is_match) {
+            
+          }
+
         }.bind(this),
-        
+
         error: function(xhr, status, err) {
           console.error(this.props.url, status, err.toString());
         }.bind(this)
       });
+    }, 3000);
+
+    const rests = this.state.allrestaurants;
+
+    const swiped = (direction, uniqueCardID) => {
+      console.log("removing: " + uniqueCardID);
+      this.setState({ lastDirection: direction });
+      console.log(uniqueCardID);
+      if (direction === 'right') {
+        $.ajax({
+          
+          url: "/api/swipe",
+          type: "POST",
+          dataType: 'json',
+          data: { "uniqueCardID" : uniqueCardID, "roomCode" : this.props.match.params.roomCode},
+          cache: false,
+
+          success: function(data) {
+            console.log(data);
+          
+            
+          }.bind(this),
+
+          error: function(xhr, status, err) {
+            console.error(this.props.url, status, err.toString());
+          }.bind(this)
+        });
+      }
     };
 
     const outOfFrame = (name) => {
@@ -155,7 +184,7 @@ export default class Room extends Component {
                 <TinderCard
                   className="swipe"
                   key={restaurantcard.id}
-                  onSwipe={(dir) => {swiped(dir, restaurantcard.name)}}
+                  onSwipe={(dir) => {swiped(dir, restaurantcard.id)}}
                   onCardLeftScreen={() => outOfFrame(restaurantcard.name)}
                 >
                   <div
