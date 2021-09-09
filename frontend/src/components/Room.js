@@ -15,6 +15,8 @@ export default class Room extends Component {
       guestCanPause: false,
       isHost: false,
       showSettings: false,
+      matched : false,
+      matchedname : '',
     };
     this.roomCode = this.props.match.params.roomCode;
     this.leaveButtonPressed = this.leaveButtonPressed.bind(this);
@@ -117,7 +119,10 @@ export default class Room extends Component {
           console.log(data);
 
 
-          if (data.is_match) {}
+          if (data.is_match) {
+            this.state.matched = true
+            this.state.matchedname = data.name
+          }
 
 
 
@@ -161,7 +166,13 @@ export default class Room extends Component {
     const outOfFrame = (name) => {
       console.log(name + " left the screen!");
     };
-
+    if(this.state.matched){
+      return(
+        <h3>{this.state.matchedname}</h3>
+      )
+    }
+    
+    else{
     return (
       <Grid container spacing={1}>
         <div className="leaveroom">
@@ -244,4 +255,5 @@ export default class Room extends Component {
       </Grid>
     );
   }
+}
 }
