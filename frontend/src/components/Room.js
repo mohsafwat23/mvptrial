@@ -118,15 +118,11 @@ export default class Room extends Component {
         success: function(data) {
           console.log(data);
 
-
           if (data.is_match) {
             this.state.matched = true
             this.state.matchedname = data.name
           }
-
-
-
-
+          
         }.bind(this),
 
         error: function(xhr, status, err) {
