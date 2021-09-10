@@ -1,7 +1,7 @@
 {
     "name": "frontend",
     "version": "1.0.0",
-    "main": "frontend/src/index.js",
+    "main": "index.js",
     "scripts": {
       "dev": "webpack --mode development --watch",
       "build": "webpack --mode production"
