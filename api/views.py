@@ -108,8 +108,6 @@ class CreateRoomView(APIView):
         #which are getting what the user puts for the given fields
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            guest_can_pause = serializer.data.get('guest_can_pause')
-            votes_to_skip = serializer.data.get('votes_to_skip')
             host = self.request.session.session_key
             host_username = serializer.data.get("host_username")
             room_queryset = Room.objects.filter(host=host)
@@ -118,16 +116,12 @@ class CreateRoomView(APIView):
             if room_queryset.exists():
                 room = room_queryset[0]
                 room.host_username = host_username
-                room.guest_can_pause = guest_can_pause
-                room.votes_to_skip = votes_to_skip
-                room.save(update_fields=[
-                          'guest_can_pause', 'votes_to_skip', 'host_username'])
+                room.save(update_fields=['host_username'])
                 self.request.session['room_code'] = room.code
                 return Response(RoomSerializer(room).data, status=status.HTTP_200_OK)
             #if no active room, a room is created with the fields and saved
             else:
-                room = Room(host=host, guest_can_pause=guest_can_pause,
-                            votes_to_skip=votes_to_skip, host_username=host_username)
+                room = Room(host=host, host_username=host_username)
 
                 room.save()
                 addRestaurants(room)

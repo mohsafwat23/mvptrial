@@ -1,7 +1,8 @@
-import React, { Component, useState } from "react";
+import React, { Component, useMemo } from "react";
 import { Button, Grid, List, Typography } from "@material-ui/core";
 import CreateRoomPage from "./CreateRoomPage";
 import TinderCard from "react-tinder-card";
+import MatchedPage  from "./MatchedPage";
 
 export default class Room extends Component {
   constructor(props) {
@@ -10,13 +11,13 @@ export default class Room extends Component {
       allrestaurants: [],
       //name:'',
       //image:'',
-      votesToSkip: 2,
       lastDirection: null,
-      guestCanPause: false,
       isHost: false,
       showSettings: false,
       matched : false,
       matchedname : '',
+      matchedimage: '',
+      matchedmap: '',
     };
     this.roomCode = this.props.match.params.roomCode;
     this.leaveButtonPressed = this.leaveButtonPressed.bind(this);
@@ -41,8 +42,6 @@ export default class Room extends Component {
       .then((data) => {
         this.setState({
           allrestaurants: data.restaurant,
-          votesToSkip: data.votes_to_skip,
-          guestCanPause: data.guest_can_pause,
           isHost: data.is_host,
         });
       });
@@ -71,8 +70,6 @@ export default class Room extends Component {
         <Grid item xs={12} align="center">
           <CreateRoomPage
             update={true}
-            votesToSkip={this.state.votesToSkip}
-            guestCanPause={this.state.guestCanPause}
             roomCode={this.roomCode}
             updateCallback={this.getRoomDetails}
           />
@@ -122,6 +119,8 @@ export default class Room extends Component {
             if (data.is_match) {
               this.state.matched = true
               this.state.matchedname = data.name
+              this.state.matchedimage = data.image
+              this.state.matchedmap = data.map_url
             }
 
           }.bind(this),
@@ -140,7 +139,7 @@ export default class Room extends Component {
       console.log(uniqueCardID);
       if (direction === 'right') {
         $.ajax({
-          
+
           url: "/api/swipe",
           type: "POST",
           dataType: 'json',
@@ -149,8 +148,8 @@ export default class Room extends Component {
 
           success: function(data) {
             console.log(data);
-          
-            
+
+
           }.bind(this),
 
           error: function(xhr, status, err) {
@@ -163,12 +162,30 @@ export default class Room extends Component {
     const outOfFrame = (name) => {
       console.log(name + " left the screen!");
     };
+
     if(this.state.matched){
       return(
-        <h3>{this.state.matchedname}</h3>
+        <Grid item xs={12} align="center">
+          <div className="cardContainer">
+            <div className="leaveRoom">
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick = {this.leaveButtonPressed}
+              >
+                Leave Room
+            </Button>
+            </div>
+            <div style={{ backgroundImage: "url(" + this.state.matchedimage + ")",}} className='card'></div>
+            <h3>{this.state.matchedname}</h3>
+            <Button variant="contained" color="primary" onClick={() => window.open(this.state.matchedmap)} >
+                Directions
+            </Button>
+          </div>
+        </Grid>
       )
     }
-    
+
     else{
     return (
       <Grid container spacing={1}>
@@ -180,7 +197,7 @@ export default class Room extends Component {
             <Button
               color="secondary"
               variant="contained"
-              onClick={this.leaveButtonPressed}
+              onClick = {this.leaveButtonPressed}
             >
               Leave Room
             </Button>
@@ -243,6 +260,7 @@ export default class Room extends Component {
             {/* {this.state.lastDirection ? <h2 className='infoText'>You swiped {this.state.lastDirection}</h2> : <h2 className='infoText' />} */}
           </div>
         </Grid>
+        
         {/* <Grid item xs={12} align ="center">
                 <Typography variant="h6" component="h6">
                     Host: {this.state.isHost.toString()}
