@@ -9,6 +9,7 @@ def check_for_match(room):
     # If they are equal it means everybody in the group swiped right on it 
     # and the given card is a match 
 
+    restarant = None
 
     for restaurant in room.restaurant.all().reverse():
         if RoomRightSwipes.objects.filter(room=room).filter(restaurant=restaurant).count() == room.head_count:

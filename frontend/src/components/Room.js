@@ -106,31 +106,32 @@ export default class Room extends Component {
 
   render() {
 
-    setInterval(() => {
-      $.ajax({
-          
-        url: "/api/check/match",
-        type: "POST",
-        dataType: 'json',
-        data: { "roomCode" : this.props.match.params.roomCode},
-        cache: false,
+    if (location.pathname.includes('room')) {
+      setInterval(() => {
+        $.ajax({
 
-        success: function(data) {
-          console.log(data);
+          url: "/api/check/match",
+          type: "POST",
+          dataType: 'json',
+          data: { "roomCode" : this.props.match.params.roomCode},
+          cache: false,
 
-          if (data.is_match) {
-            this.state.matched = true
-            this.state.matchedname = data.name
-          }
-          
-        }.bind(this),
+          success: function(data) {
+            console.log(data);
 
-        error: function(xhr, status, err) {
-          console.error(this.props.url, status, err.toString());
-        }.bind(this)
-      });
-    }, 3000);
+            if (data.is_match) {
+              this.state.matched = true
+              this.state.matchedname = data.name
+            }
 
+          }.bind(this),
+
+          error: function(xhr, status, err) {
+            console.error(this.props.url, status, err.toString());
+          }.bind(this)
+        });
+      }, 3000);
+    }
     const rests = this.state.allrestaurants;
 
     const swiped = (direction, uniqueCardID) => {
