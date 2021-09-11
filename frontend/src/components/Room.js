@@ -149,7 +149,6 @@ export default class Room extends Component {
           success: function(data) {
             console.log(data);
 
-            
 
           }.bind(this),
 
@@ -177,7 +176,7 @@ export default class Room extends Component {
                 Leave Room
             </Button>
             </div>
-            <div style={{ backgroundImage: "url(" + this.state.matchedimage + ")",}} className='card'></div>
+            g<div style={{ backgroundImage: "url(" + this.state.matchedimage + ")",}} className='card'></div>
             <h3>{this.state.matchedname}</h3>
             <Button variant="contained" color="primary" onClick={() => window.open(this.state.matchedmap)} >
                 Directions
