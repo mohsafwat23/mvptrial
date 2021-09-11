@@ -176,7 +176,7 @@ export default class Room extends Component {
                 Leave Room
             </Button>
             </div>
-            g<div style={{ backgroundImage: "url(" + this.state.matchedimage + ")",}} className='card'></div>
+            <div style={{ backgroundImage: "url(" + this.state.matchedimage + ")",}} className='card'></div>
             <h3>{this.state.matchedname}</h3>
             <Button variant="contained" color="primary" onClick={() => window.open(this.state.matchedmap)} >
                 Directions
