@@ -26,7 +26,7 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['outvite-mvp.herokuapp.com', 'outvite.me']
+ALLOWED_HOSTS = ['outvite-mvp.herokuapp.com', 'outvite.me', '127.0.0.1']
 
 
 # Application definition
@@ -140,7 +140,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'frontend/static')
+    os.path.join(BASE_DIR, 'static')
 ]
 
 # Default primary key field type
