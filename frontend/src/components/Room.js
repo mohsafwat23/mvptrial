@@ -2,6 +2,7 @@ import React, { Component, useMemo } from "react";
 import { Button, Grid, List, Typography } from "@material-ui/core";
 import CreateRoomPage from "./CreateRoomPage";
 import TinderCard from "react-tinder-card";
+import MatchedPage  from "./MatchedPage";
 
 export default class Room extends Component {
   constructor(props) {
@@ -118,6 +119,8 @@ export default class Room extends Component {
             if (data.is_match) {
               this.state.matched = true
               this.state.matchedname = data.name
+              this.state.matchedimage = data.image
+              this.state.matchedmap = data.map_url
             }
 
           }.bind(this),
@@ -164,7 +167,16 @@ export default class Room extends Component {
       return(
         <Grid item xs={12} align="center">
           <div className="cardContainer">
-            <div style={{ backgroundImage: "url(" + this.state.matchedimage + ")",}} className='card'></div>
+            <div className="leaveRoom">
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick = {this.leaveButtonPressed}
+              >
+                Leave Room
+            </Button>
+            </div>
+            g<div style={{ backgroundImage: "url(" + this.state.matchedimage + ")",}} className='card'></div>
             <h3>{this.state.matchedname}</h3>
             <Button variant="contained" color="primary" onClick={() => window.open(this.state.matchedmap)} >
                 Directions
