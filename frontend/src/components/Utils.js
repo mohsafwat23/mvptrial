@@ -1,8 +1,8 @@
 export function sortByLocation(restaurants) {
   let latitude, longitude;
-    navigator.geolocation.getCurrentPosition(function(position) {
-      latitude = (position.coords.latitude)
-      longitude = (position.coords.longitude)
+  navigator.geolocation.getCurrentPosition(function(position) {
+    latitude = (position.coords.latitude)
+    longitude = (position.coords.longitude)
     
     console.log("User latitude longitude");
     console.log(latitude, longitude);
@@ -45,6 +45,7 @@ function distance(lat1, lon1, lat2, lon2, unit) {
   if ((lat1 == lat2) && (lon1 == lon2)) {
       return 0;
   }
+  
   else {
       var radlat1 = Math.PI * lat1/180;
       var radlat2 = Math.PI * lat2/180;
