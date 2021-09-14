@@ -20,10 +20,8 @@ from django.views import View
 import os
 
 
-# Create your views here.
-
 #function that takes in 25 random restaurants from the django database and stores it in the created room
-def addRestaurants(room):
+def addRestaurants(room, latitude, longitude):
     # change to how many random restaurants you want
     num_rest = 25
 
@@ -109,7 +107,11 @@ class CreateRoomView(APIView):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             host = self.request.session.session_key
+            print(serializer.data.get("context"))
             host_username = serializer.data.get("host_username")
+            latitude = serializer.data.get("latitude")
+            longitude = serializer.data.get("longitude")
+
             room_queryset = Room.objects.filter(host=host)
             user_queryset = User.objects.filter(session_key=host)
             #if the host has an active room, update whith what fields he puts
@@ -124,7 +126,8 @@ class CreateRoomView(APIView):
                 room = Room(host=host, host_username=host_username)
 
                 room.save()
-                addRestaurants(room)
+
+                addRestaurants(room, latitude, longitude)
 
                 user = User(username=host_username,
                             session_key=host, room=room)
