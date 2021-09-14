@@ -11,6 +11,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { Collapse } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
+import { getLocation } from "./Utils";
 
 export default class CreateRoomPage extends Component {
   static defaultProps = {
@@ -39,6 +40,7 @@ export default class CreateRoomPage extends Component {
     if (this.state.username == "") {
       this.setState({ usernameError: "invalid username" });
     } else {
+
       this.setState({ usernameError: "" });
 
       const requestOptions = {

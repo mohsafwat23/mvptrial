@@ -33,6 +33,19 @@ class Restaurant(models.Model):
     def __str__(self):
         return self.name
 
+    
+    def geolocation_extractor(self):
+        """
+        Extracts geolocation values from a url formatted in the following way 
+        https://maps.google.com/?q=43.06783875510204,-89.40913090816326   
+        """
+        
+        counter = 0
+        for char in self.map_url:
+            counter += 1
+            if char == '=':
+                return self.map_url[counter + 1:].split(",")
+
 #room model is where the users will swipe
 #it has a ManyToManyField that links the room with the restaurants model
 #TO DO: remove unnecessary fields 
