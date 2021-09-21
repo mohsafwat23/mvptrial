@@ -29,7 +29,20 @@ class Restaurant(models.Model):
     map_url = models.TextField(null=True)
     price = models.TextField(null=True)
     menu = models.TextField(null=True)
-
+    monday_opening = models.TimeField(blank=True, null=True)
+    monday_closing= models.TimeField(blank=True, null=True)
+    tuesday_opening = models.TimeField(blank=True, null=True)
+    tuesday_closing= models.TimeField(blank=True, null=True)
+    wednesday_opening = models.TimeField(blank=True, null=True)    
+    wednesday_closing= models.TimeField(blank=True, null=True)
+    thursday_opening = models.TimeField(blank=True, null=True)
+    thursday_closing= models.TimeField(blank=True, null=True)
+    friday_opening = models.TimeField(blank=True, null=True)
+    friday_closing= models.TimeField(blank=True, null=True)
+    saturday_opening = models.TimeField(blank=True, null=True)
+    saturday_closing= models.TimeField(blank=True, null=True)
+    sunday_opening = models.TimeField(blank=True, null=True)
+    sunday_closing= models.TimeField(blank=True, null=True)
     def __str__(self):
         return self.name
 
