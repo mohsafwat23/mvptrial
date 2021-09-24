@@ -7,7 +7,7 @@ from .models import Room, User, Restaurant, RoomRightSwipes
 class RestaurantSerializer2(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
-        fields = ('id','cuisine', 'name', 'rating', 'image', 'map_url', 'price', 'menu')
+        fields = '__all__'
 
 #serializer for the room model
 #the restaurant serializer is called within to serialize the restaurant objects within each room
