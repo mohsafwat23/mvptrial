@@ -107,6 +107,17 @@ body {
   border-radius: 20px;
 }
 
+.card .distance h3 {
+  position: absolute;
+  margin: 10px;
+  color: #ffffff;
+  top: 20px;
+  right: 20px;
+  font-family: "Poppins";
+  background-color: #7857fe;
+  border-radius: 20px;
+}
+
 * {
   margin: 0px;
   padding: 0px;
@@ -206,11 +217,12 @@ body {
   text-transform: capitalize;
 }
 
-.create-join-room-title {
+.create-join-room-title h3 {
+  position: relative;
   font-family: "Poppins";
   color: #000000;
-  font-size: 50px;
-  left: 4vmax;
+  font-size: 4.5vmax;
+  top: 30%;
 }
 
 h4 {

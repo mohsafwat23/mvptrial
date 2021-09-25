@@ -223,13 +223,12 @@ export default class Room extends Component {
                   >
                     <div className="name">
                       <h3>{restaurantcard.name}</h3>
-                      <h4>{restaurantcard.distance_from_user}</h4>
                       {restaurantcard.price != "nan" ? (
                         <h4>
-                          {restaurantcard.cuisine} - {restaurantcard.price}
+                          {restaurantcard.cuisine} - {restaurantcard.price} - {restaurantcard.distance_from_user} mi
                         </h4>
                       ) : (
-                        <h4>{restaurantcard.cuisine}</h4>
+                        <h4>{restaurantcard.cuisine} - {restaurantcard.distance_from_user} mi</h4>
                       )}
                       <div id="room-buttons">
                         <Button
