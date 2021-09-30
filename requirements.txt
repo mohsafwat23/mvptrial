@@ -14,3 +14,4 @@ dj-database-url==0.5.0
 django-storages==1.11.1
 django-heroku==0.0.0
 django-cors-headers
+psycopg2-binary
