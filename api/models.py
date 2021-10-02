@@ -29,9 +29,35 @@ class Restaurant(models.Model):
     map_url = models.TextField(null=True)
     price = models.TextField(null=True)
     menu = models.TextField(null=True)
-
+    monday_opening = models.TextField(blank=True, null=True)
+    monday_closing= models.TextField(blank=True, null=True)
+    tuesday_opening = models.TextField(blank=True, null=True)
+    tuesday_closing= models.TextField(blank=True, null=True)
+    wednesday_opening = models.TextField(blank=True, null=True)    
+    wednesday_closing= models.TextField(blank=True, null=True)
+    thursday_opening = models.TextField(blank=True, null=True)
+    thursday_closing= models.TextField(blank=True, null=True)
+    friday_opening = models.TextField(blank=True, null=True)
+    friday_closing= models.TextField(blank=True, null=True)
+    saturday_opening = models.TextField(blank=True, null=True)
+    saturday_closing= models.TextField(blank=True, null=True)
+    sunday_opening = models.TextField(blank=True, null=True)
+    sunday_closing= models.TextField(blank=True, null=True)
     def __str__(self):
         return self.name
+
+    
+    def geolocation_extractor(self):
+        """
+        Extracts geolocation values from a url formatted in the following way 
+        https://maps.google.com/?q=43.06783875510204,-89.40913090816326   
+        """
+        
+        counter = 0
+        for char in self.map_url:
+            counter += 1
+            if char == '=':
+                return self.map_url[counter + 1:].split(",")
 
 #room model is where the users will swipe
 #it has a ManyToManyField that links the room with the restaurants model

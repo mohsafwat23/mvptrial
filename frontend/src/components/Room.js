@@ -2,7 +2,7 @@ import React, { Component, useMemo } from "react";
 import { Button, Grid, List, Typography } from "@material-ui/core";
 import CreateRoomPage from "./CreateRoomPage";
 import TinderCard from "react-tinder-card";
-import MatchedPage  from "./MatchedPage";
+import { sortByLocation } from "./Utils"
 
 export default class Room extends Component {
   constructor(props) {
@@ -26,6 +26,7 @@ export default class Room extends Component {
     //this.renderSettings = this.renderSettings.bind(this);
     this.getRoomDetails = this.getRoomDetails.bind(this);
     this.getRoomDetails();
+    
     //this.fetchCards = this.fetchCards.bind(this);
   }
 
@@ -131,8 +132,9 @@ export default class Room extends Component {
         });
       }, 3000);
     }
-    const rests = this.state.allrestaurants;
-
+    sortByLocation(this.state.allrestaurants)
+    const restaurants = this.state.allrestaurants;
+    
     const swiped = (direction, uniqueCardID) => {
       console.log("removing: " + uniqueCardID);
       this.setState({ lastDirection: direction });
@@ -163,7 +165,7 @@ export default class Room extends Component {
       console.log(name + " left the screen!");
     };
 
-    if(this.state.matched){
+    if (this.state.matched){
       return(
         <Grid item xs={12} align="center">
           <div className="cardContainer">
@@ -176,7 +178,7 @@ export default class Room extends Component {
                 Leave Room
             </Button>
             </div>
-            g<div style={{ backgroundImage: "url(" + this.state.matchedimage + ")",}} className='card'></div>
+            <div style={{ backgroundImage: "url(" + this.state.matchedimage + ")",}} className='card'></div>
             <h3>{this.state.matchedname}</h3>
             <Button variant="contained" color="primary" onClick={() => window.open(this.state.matchedmap)} >
                 Directions
@@ -206,7 +208,7 @@ export default class Room extends Component {
         <Grid item xs={12} align="center">
           <div>
             <div className="cardContainer">
-              {rests.map((restaurantcard) => (
+              {restaurants.map((restaurantcard) => (
                 <TinderCard
                   className="swipe"
                   key={restaurantcard.id}
@@ -223,10 +225,10 @@ export default class Room extends Component {
                       <h3>{restaurantcard.name}</h3>
                       {restaurantcard.price != "nan" ? (
                         <h4>
-                          {restaurantcard.cuisine} - {restaurantcard.price}
+                          {restaurantcard.cuisine} - {restaurantcard.price} - {restaurantcard.distance_from_user} mi
                         </h4>
                       ) : (
-                        <h4>{restaurantcard.cuisine}</h4>
+                        <h4>{restaurantcard.cuisine} - {restaurantcard.distance_from_user} mi</h4>
                       )}
                       <div id="room-buttons">
                         <Button
