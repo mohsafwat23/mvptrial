@@ -14,7 +14,7 @@ export function sortByLocation(restaurants) {
       let distance_from_user = distance(latitude, longitude, restaurantLatitude, restaurantLongitude, "M");
 
       // sort elements by distance from user
-      element.distance_from_user = distance_from_user;     
+      element.distance_from_user = distance_from_user.toFixed(2);     
     })
 
     restaurants.sort(function(a, b) {

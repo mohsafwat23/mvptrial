@@ -2,7 +2,8 @@ import React, { Component, useMemo } from "react";
 import { Button, Grid, List, Typography } from "@material-ui/core";
 import CreateRoomPage from "./CreateRoomPage";
 import TinderCard from "react-tinder-card";
-import { sortByLocation } from "./Utils"
+import { sortByLocation } from "./Utils";
+import { OpenHours } from "./hours";
 
 export default class Room extends Component {
   constructor(props) {
@@ -133,6 +134,7 @@ export default class Room extends Component {
       }, 3000);
     }
     sortByLocation(this.state.allrestaurants)
+    OpenHours(this.state.allrestaurants)
     const restaurants = this.state.allrestaurants;
     
     const swiped = (direction, uniqueCardID) => {
@@ -225,7 +227,7 @@ export default class Room extends Component {
                       <h3>{restaurantcard.name}</h3>
                       {restaurantcard.price != "nan" ? (
                         <h4>
-                          {restaurantcard.cuisine} - {restaurantcard.price} - {restaurantcard.distance_from_user} mi
+                          {restaurantcard.cuisine} - {restaurantcard.price} - {restaurantcard.currentlyopen}- {restaurantcard.distance_from_user} mi 
                         </h4>
                       ) : (
                         <h4>{restaurantcard.cuisine} - {restaurantcard.distance_from_user} mi</h4>
