@@ -419,3 +419,7 @@ h4 {
 .leaveRoom {
   margin: 1rem; 
 }
+
+.directionsButton {
+  cursor: pointer;
+}

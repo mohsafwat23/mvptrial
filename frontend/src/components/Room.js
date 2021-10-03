@@ -98,7 +98,7 @@ export default class Room extends Component {
     swipeHelper("right")
   }
 
-  openDirection(this) {
+  openDirection() {
     window.open(this.state.matchedmap)
   }
 
@@ -165,8 +165,6 @@ export default class Room extends Component {
       console.log(name + " left the screen!");
     };
 
-
-
     if (this.state.matched) {
       return(
         <Grid item xs={12} align="center">
@@ -182,7 +180,7 @@ export default class Room extends Component {
             </div>
             <div style={{ backgroundImage: "url(" + this.state.matchedimage + ")",}} className='card'></div>
             <h3>{this.state.matchedname}</h3>
-            <Button variant="contained" color="primary" style="cursor: pointer;" onClick={this.openDirection.bind(this)} >
+            <Button variant="contained" color="primary" className="directionsButton" onClick={this.openDirection.bind(this)} >
                 Directions
             </Button>
           </div>
