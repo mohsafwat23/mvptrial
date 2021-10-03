@@ -2,17 +2,16 @@ import React, { Component, useMemo } from "react";
 import { Button, Grid, List, Snackbar, Typography } from "@material-ui/core";
 import CreateRoomPage from "./CreateRoomPage";
 import TinderCard from "react-tinder-card";
-import { sortByLocation } from "./Utils";
+import { sortByLocation, swipeHelper } from "./Utils";
 import { SwipeButtonComponent } from './SwipeButtonComponent';
 
+import { OpenHours } from "./hours";
 
 export default class Room extends Component {
   constructor(props) {
     super(props);
     this.state = {
       allrestaurants: [],
-      //name:'',
-      //image:'',
       lastDirection: null,
       isHost: false,
       showSettings: false,
@@ -25,13 +24,8 @@ export default class Room extends Component {
     };
     this.roomCode = this.props.match.params.roomCode;
     this.leaveButtonPressed = this.leaveButtonPressed.bind(this);
-    //this.updateShowSettings = this.updateShowSettings.bind(this);
-    //this.renderSettingsButton = this.renderSettingsButton.bind(this);
-    //this.renderSettings = this.renderSettings.bind(this);
     this.getRoomDetails = this.getRoomDetails.bind(this);
     this.getRoomDetails();
-    
-    //this.fetchCards = this.fetchCards.bind(this);
   }
 
   getRoomDetails() {
@@ -44,6 +38,7 @@ export default class Room extends Component {
 
         return response.json();
       })
+
       .then((data) => {
         this.setState({
           allrestaurants: data.restaurant,
@@ -95,26 +90,22 @@ export default class Room extends Component {
     );
   }
 
-  // renderSettingsButton() {
-  //   return (
-  //     <Grid item xs={12} align="center">
-  //       <Button
-  //         variant="contained"
-  //         color="primary"
-  //         onClick={() => this.updateShowSettings(true)}
-  //       >
-  //         Settings
-  //       </Button>
-  //     </Grid>
-  //   );
-  // }
+  leftSwipe() {
+    swipeHelper("left")
+  }
+
+  rightSwipe() {
+    swipeHelper("right")
+  }
+
+  openDirection(this) {
+    window.open(this.state.matchedmap)
+  }
 
   render() {
-
     if (!this.state.matched) {
       var matchFindingInterval = setInterval(() => {
-        $.ajax({
-
+        $.ajax ({
           url: "/api/check/match",
           type: "POST",
           dataType: 'json',
@@ -138,6 +129,7 @@ export default class Room extends Component {
       }, 3000);
     }
     sortByLocation(this.state.allrestaurants)
+    OpenHours(this.state.allrestaurants)
     const restaurants = this.state.allrestaurants;
   
     const swiped = (direction, uniqueCardID) => {
@@ -173,6 +165,8 @@ export default class Room extends Component {
       console.log(name + " left the screen!");
     };
 
+
+
     if (this.state.matched) {
       return(
         <Grid item xs={12} align="center">
@@ -188,7 +182,7 @@ export default class Room extends Component {
             </div>
             <div style={{ backgroundImage: "url(" + this.state.matchedimage + ")",}} className='card'></div>
             <h3>{this.state.matchedname}</h3>
-            <Button variant="contained" color="primary" onClick={() => window.open(this.state.matchedmap)} >
+            <Button variant="contained" color="primary" style="cursor: pointer;" onClick={this.openDirection.bind(this)} >
                 Directions
             </Button>
           </div>
@@ -230,41 +224,41 @@ export default class Room extends Component {
                         }}
                         className="card"
                       >
-                        <div className="name">
-                          <h3>{restaurantCard.name}</h3>
-                          <h4>{restaurantCard.distance_from_user}</h4>
-                          {restaurantCard.price != "nan" ? (
-                            <h4>
-                              {restaurantCard.cuisine} - {restaurantCard.price}
-                            </h4>
+                      
+                      <div className="name">
+                        <h3>{restaurantCard.name}</h3>
+                        {restaurantCard.price != "nan" ? (
+                          <h4>
+                            {restaurantCard.cuisine} - {restaurantCard.price} - {restaurantCard.currentlyopen}- {restaurantCard.distance_from_user} mi 
+                          </h4>
                           ) : (
-                            <h4>{restaurantCard.cuisine}</h4>
-                          )}
-                          <div id="room-buttons">
+                          <h4>{restaurantCard.cuisine} - {restaurantCard.distance_from_user} mi</h4>
+                        )}
+                        <div id="room-buttons">
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => window.open(restaurantCard.map_url)}
+                          >
+                            Directions
+                          </Button>
+                          {restaurantCard.menu != "nan" ? (
                             <Button
                               variant="contained"
-                              color="primary"
-                              onClick={() => window.open(restaurantCard.map_url)}
+                              color="tertiary"
+                              onClick={() => window.open(restaurantCard.menu)}
                             >
-                              Directions
+                              Menu
                             </Button>
-                            {restaurantCard.menu != "nan" ? (
-                              <Button
-                                variant="contained"
-                                color="tertiary"
-                                onClick={() => window.open(restaurantCard.menu)}
-                              >
-                                Menu
-                              </Button>
-                            ) : (
-                              ""
-                            )}
-                          </div>
-                        </div>
-                        <div className="rating">
-                          <h3>&nbsp;&nbsp;{restaurantCard.rating}/5⭐️</h3>
+                          ) : (
+                          ""
+                          )}
                         </div>
                       </div>
+                      <div className="rating">
+                        <h3>&nbsp;&nbsp;{restaurantCard.rating}/5⭐️</h3>
+                      </div>
+                    </div>
                             
                     </TinderCard>
                   </React.Fragment>
@@ -272,12 +266,20 @@ export default class Room extends Component {
               </div> 
             </div>
             <React.Fragment>
-             <SwipeButtonComponent direction="left" restaurantID={this.state.nextCard.id}>
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick = {this.leftSwipe}
+              >
                 Left
-             </SwipeButtonComponent>
-             <SwipeButtonComponent direction="right" restaurantID={this.state.nextCard.id}>
+              </Button>
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick = {this.rightSwipe}
+              >
                 Right
-             </SwipeButtonComponent>
+              </Button>
             </React.Fragment>
             {this.state.lastDirection ? <h2 className='infoText'>You swiped {this.state.lastDirection}</h2> : <h2 className='infoText' />}
           </Grid>

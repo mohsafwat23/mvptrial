@@ -135,7 +135,6 @@ export default class CreateRoomPage extends Component {
           helperText={this.state.usernameError}
           variant="outlined"
           onChange={this.handleUsernameTextFieldChange}
-          autoFocus
         />
       </Grid>
     );
@@ -176,8 +175,15 @@ export default class CreateRoomPage extends Component {
             {title}
           </Typography>
         </Grid>
-        {this.renderUsernameTextField()}
         <Grid item xs={12} align="center">
+          <FormControl>
+            <FormHelperText>
+              <div align="center">Enter a username</div>
+            </FormHelperText>
+          </FormControl>
+        </Grid> 
+        {this.renderUsernameTextField()}
+        {/* <Grid item xs={12} align="center">
           <FormControl component="fieldset">
             <FormHelperText>
               <div className="create-join-room-title"><h4>Pick a Swiping Mode</h4></div>
@@ -206,7 +212,7 @@ export default class CreateRoomPage extends Component {
               <div align="center">Number of User in Group</div>
             </FormHelperText>
           </FormControl>
-        </Grid>
+        </Grid> */}
         {this.props.update
           ? this.renderUpdateButtons()
           : this.renderCreateButtons()}

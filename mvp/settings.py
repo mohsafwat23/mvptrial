@@ -82,6 +82,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     )
 }
+REST_FRAMEWORK = {
+    'DATETIME_FORMAT': "%I:%M %P"
+}
 
 
 # Database
@@ -147,6 +150,7 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+TIME_INPUT_FORMATS = ('%I:%M %p',)
 
 
 # Add HTTPS 
