@@ -421,5 +421,5 @@ h4 {
 }
 
 .directionsButton {
-  cursor: pointer;
+  cursor: pointer !important;
 }
