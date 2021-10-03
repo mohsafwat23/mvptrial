@@ -23,7 +23,7 @@ import os
 #function that takes in 25 random restaurants from the django database and stores it in the created room
 def addRestaurants(room, latitude, longitude):
     # change to how many random restaurants you want
-    num_rest = 1
+    num_rest = 20
 
     restaurants = list(Restaurant.objects.all())
 

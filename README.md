@@ -82,6 +82,4 @@ In another terminal
 
 `activate your venv`
 
-`cd frontend`
-
 `npm run dev`
