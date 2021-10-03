@@ -77,7 +77,6 @@ export function swipeHelper(direction) {
   console.log(direction + " Swipe Recorded")
   var restaurantCards = document.querySelectorAll(".swipe")
 
-  var reversedCards = restaurantCards.reverse()
 
   reversedCards.forEach(element => {
     console.log(element.classList[0]);
