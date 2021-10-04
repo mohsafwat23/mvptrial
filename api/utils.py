@@ -11,8 +11,15 @@ def check_for_match(room):
 
     restarant = None
 
+
+    if room.found_match:
+        return True, room.match_restaurant
+
     for restaurant in room.restaurant.all().reverse():
         if RoomRightSwipes.objects.filter(room=room).filter(restaurant=restaurant).count() == room.head_count:
+            room.found_match = True
+            room.match_restaurant = restaurant
+            room.save()
             return True, restaurant
 
     return False, restaurant

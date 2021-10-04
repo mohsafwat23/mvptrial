@@ -11,57 +11,68 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { Collapse } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
-import { getLocation } from "./Utils";
-
 export default class CreateRoomPage extends Component {
   static defaultProps = {
+    votesToSkip: 2,
+    guestCanPause: true,
     update: false,
     roomCode: null,
     username: "",
     usernameError: "",
     updateCallback: () => {},
   };
-
   constructor(props) {
     super(props);
     this.state = {
+      guestCanPause: this.props.guestCanPause,
+      votesToSkip: this.props.votesToSkip,
       username: this.props.username,
       errorMsg: "",
       successMsg: "",
     };
-
     this.handleRoomButtonPressed = this.handleRoomButtonPressed.bind(this);
+    this.handleVotesChange = this.handleVotesChange.bind(this);
+    this.handleGuestCanPauseChange = this.handleGuestCanPauseChange.bind(this);
     this.handleUpdateButtonPressed = this.handleUpdateButtonPressed.bind(this);
     this.handleUsernameTextFieldChange =
       this.handleUsernameTextFieldChange.bind(this);
   }
-
+  handleVotesChange(e) {
+    this.setState({
+      votesToSkip: e.target.value,
+    });
+  }
+  handleGuestCanPauseChange(e) {
+    this.setState({
+      guestCanPause: e.target.value === "true" ? true : false,
+    });
+  }
   handleRoomButtonPressed() {
     if (this.state.username == "") {
       this.setState({ usernameError: "invalid username" });
     } else {
-
       this.setState({ usernameError: "" });
-
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          votes_to_skip: this.state.votesToSkip,
+          guest_can_pause: this.state.guestCanPause,
           host_username: this.state.username,
         }),
       };
-
       fetch("/api/create-room", requestOptions)
         .then((response) => response.json())
         .then((data) => this.props.history.push("/room/" + data.code));
     }
   }
-
   handleUpdateButtonPressed() {
     const requestOptions = {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        votes_to_skip: this.state.votesToSkip,
+        guest_can_pause: this.state.guestCanPause,
         code: this.props.roomCode,
       }),
     };
@@ -78,13 +89,11 @@ export default class CreateRoomPage extends Component {
       this.props.updateCallback();
     });
   }
-
   handleUsernameTextFieldChange(e) {
     this.setState({
       username: e.target.value,
     });
   }
-
   renderCreateButtons() {
     return (
       <Grid container spacing={1}>
@@ -105,7 +114,6 @@ export default class CreateRoomPage extends Component {
       </Grid>
     );
   }
-
   renderUpdateButtons() {
     return (
       <Grid item xs={12} align="center">
@@ -119,12 +127,10 @@ export default class CreateRoomPage extends Component {
       </Grid>
     );
   }
-
   renderUsernameTextField() {
     if (this.props.update) {
       return null;
     }
-
     return (
       <Grid item xs={12} align="center">
         <TextField
@@ -135,14 +141,13 @@ export default class CreateRoomPage extends Component {
           helperText={this.state.usernameError}
           variant="outlined"
           onChange={this.handleUsernameTextFieldChange}
+          autoFocus
         />
       </Grid>
     );
   }
-
   render() {
     const title = this.props.update ? "Update Room" : <div className="create-join-room-title"><h3>Create a Room</h3></div>;
-
     return (
       <Grid container spacing={1}>
         <Grid item xs={12} align="center">
@@ -175,21 +180,16 @@ export default class CreateRoomPage extends Component {
             {title}
           </Typography>
         </Grid>
-        <Grid item xs={12} align="center">
-          <FormControl>
-            <FormHelperText>
-              <div align="center">Enter a username</div>
-            </FormHelperText>
-          </FormControl>
-        </Grid> 
         {this.renderUsernameTextField()}
-        {/* <Grid item xs={12} align="center">
+        <Grid item xs={12} align="center">
           <FormControl component="fieldset">
             <FormHelperText>
               <div className="create-join-room-title"><h4>Pick a Swiping Mode</h4></div>
             </FormHelperText>
             <RadioGroup
               row
+              defaultValue={this.props.guestCanPause.toString()}
+              onChange={this.handleGuestCanPauseChange}
             >
               <FormControlLabel
                 value="true"
@@ -208,11 +208,21 @@ export default class CreateRoomPage extends Component {
         </Grid>
         <Grid item xs={12} align="center">
           <FormControl>
+            <TextField
+              required={true}
+              type="number"
+              onChange={this.handleVotesChange}
+              defaultValue={this.state.votesToSkip}
+              inputProps={{
+                min: 1,
+                style: { textAlign: "center" },
+              }}
+            />
             <FormHelperText>
               <div align="center">Number of User in Group</div>
             </FormHelperText>
           </FormControl>
-        </Grid> */}
+        </Grid>
         {this.props.update
           ? this.renderUpdateButtons()
           : this.renderCreateButtons()}

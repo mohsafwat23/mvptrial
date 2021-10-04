@@ -1,10 +1,8 @@
-import React, { Component, useMemo } from "react";
-import { Button, Grid, List, Snackbar, Typography } from "@material-ui/core";
+import React, { Component } from "react";
+import { Button, Grid } from "@material-ui/core";
 import CreateRoomPage from "./CreateRoomPage";
 import TinderCard from "react-tinder-card";
-import { sortByLocation, swipeHelper } from "./Utils";
-import { SwipeButtonComponent } from './SwipeButtonComponent';
-
+import { sortByLocation } from "./Utils";
 import { OpenHours } from "./hours";
 
 export default class Room extends Component {
@@ -26,6 +24,7 @@ export default class Room extends Component {
     this.leaveButtonPressed = this.leaveButtonPressed.bind(this);
     this.getRoomDetails = this.getRoomDetails.bind(this);
     this.getRoomDetails();
+
   }
 
   getRoomDetails() {
@@ -43,17 +42,16 @@ export default class Room extends Component {
         this.setState({
           allrestaurants: data.restaurant,
           isHost: data.is_host,
+          matched: data.found_match
         });
       });
   }
 
-  leaveButtonPressed(matchFindingInterval) {
+  leaveButtonPressed() {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
     };
-
-    clearInterval(matchFindingInterval)
 
     fetch("/api/leave-room", requestOptions).then((_response) => {
       this.props.leaveRoomCallback();
@@ -90,47 +88,99 @@ export default class Room extends Component {
     );
   }
 
-  leftSwipe() {
-    swipeHelper("left")
-  }
-
-  rightSwipe() {
-    swipeHelper("right")
-  }
-
   openDirection() {
     window.open(this.state.matchedmap)
   }
 
   render() {
-    if (!this.state.matched) {
-      var matchFindingInterval = setInterval(() => {
-        $.ajax ({
-          url: "/api/check/match",
-          type: "POST",
-          dataType: 'json',
-          data: { "roomCode" : this.props.match.params.roomCode},
-          cache: false,
-
-          success: function(data) {
-            console.log(data);
-            if (data.is_match) {
-              clearInterval(matchFindingInterval);
-              this.state.matched = true
-              this.state.matchedname = data.name
-              this.state.matchedimage = data.image
-              this.state.matchedmap = data.map_url
-            }
-
-          }.bind(this),
-
-          error: function(xhr, status, err) {}.bind(this)
-        });
-      }, 3000);
-    }
     sortByLocation(this.state.allrestaurants)
     OpenHours(this.state.allrestaurants)
     const restaurants = this.state.allrestaurants;
+
+    const checkMatch = () => {
+      console.log("reached here");
+      $.ajax ({
+        url: "/api/check/match",
+        type: "POST",
+        dataType: 'json',
+        data: { "roomCode" : this.props.match.params.roomCode},
+        cache: false,
+    
+        success: function(data) {
+          if (data.is_match) {
+            console.log(data);
+            this.state.matched = true
+            this.state.matchedname = data.name
+            this.state.matchedimage = data.image
+            this.state.matchedmap = data.map_url
+          }
+          
+        }.bind(this),
+    
+        error: function(xhr, status, err) {}.bind(this)
+      });
+    }
+
+    const swipeHandler = (direction) => {
+
+
+      console.log(direction + " wow");
+
+      this.setState({ lastDirection: direction});
+      var restaurantCards = document.querySelectorAll(".swipe")
+      for (var i = restaurantCards.length - 1; i >= 0; i--) {
+  
+        if (restaurantCards[i].style.display !== 'none') {
+          restaurantCards[i].style.display = 'none'
+          
+          if (direction === 'right') {
+            console.log(restaurantCards[i].classList[0]);
+            console.log("reached herererererer");
+            $.ajax({
+              url: "/api/swipe",
+              type: "POST",
+              dataType: 'json',
+              data: { "uniqueCardID" : restaurantCards[i].classList[0], "roomCode" : this.props.match.params.roomCode},
+              cache: false,
+              success: function(data) {
+              }.bind(this),
+              error: function(xhr, status, err) {
+                console.error(this.props.url, status, err.toString());
+              }.bind(this)
+            });
+
+
+            $.ajax ({
+              url: "/api/check/match",
+              type: "POST",
+              dataType: 'json',
+              data: { "roomCode" : this.props.match.params.roomCode},
+              cache: false,
+          
+              success: function(data) {
+                if (data.is_match) {
+                  console.log(data);
+                  this.state.matched = true
+                  this.state.matchedname = data.name
+                  this.state.matchedimage = data.image
+                  this.state.matchedmap = data.map_url
+                }
+                
+              }.bind(this),
+          
+              error: function(xhr, status, err) {}.bind(this)
+            });
+          }
+
+          
+
+
+          checkMatch.bind(this);
+  
+          break;
+        }
+      }
+    }
   
     const swiped = (direction, uniqueCardID) => {
       console.log("removing: " + uniqueCardID);
@@ -138,7 +188,7 @@ export default class Room extends Component {
       console.log(uniqueCardID);
         
       if (direction === 'right') {
-        
+        console.log("reached hehehehe toooo");
         $.ajax({
           url: "/api/swipe",
           type: "POST",
@@ -146,17 +196,30 @@ export default class Room extends Component {
           data: { "uniqueCardID" : uniqueCardID, "roomCode" : this.props.match.params.roomCode},
           cache: false,
           success: function(data) {
-            console.log(data);
+          }.bind(this),
+          error: function(xhr, status, err) {
+            console.error(this.props.url, status, err.toString());
+          }.bind(this)
+        });
+        $.ajax ({
+          url: "/api/check/match",
+          type: "POST",
+          dataType: 'json',
+          data: { "roomCode" : this.props.match.params.roomCode},
+          cache: false,
+      
+          success: function(data) {
             if (data.is_match) {
+              console.log(data);
               this.state.matched = true
               this.state.matchedname = data.name
               this.state.matchedimage = data.image
               this.state.matchedmap = data.map_url
             }
+            
           }.bind(this),
-          error: function(xhr, status, err) {
-            console.error(this.props.url, status, err.toString());
-          }.bind(this)
+      
+          error: function(xhr, status, err) {}.bind(this)
         });
       }
     };
@@ -173,7 +236,7 @@ export default class Room extends Component {
               <Button
                 color="secondary"
                 variant="contained"
-                onClick = {this.leaveButtonPressed.bind(this, matchFindingInterval)}
+                onClick = {this.leaveButtonPressed.bind(this)}
               >
                 Leave Room
             </Button>
@@ -199,7 +262,7 @@ export default class Room extends Component {
               <Button
                 color="secondary"
                 variant="contained"
-                onClick = {this.leaveButtonPressed.bind(this, matchFindingInterval)}
+                onClick = {this.leaveButtonPressed.bind(this)}
               >
                 Leave Room
               </Button>
@@ -233,17 +296,11 @@ export default class Room extends Component {
                           <h4>{restaurantCard.cuisine} - {restaurantCard.distance_from_user} mi</h4>
                         )}
                         <div id="room-buttons">
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => window.open(restaurantCard.map_url)}
-                          >
-                            Directions
-                          </Button>
                           {restaurantCard.menu != "nan" ? (
                             <Button
                               variant="contained"
                               color="tertiary"
+                              className="directionsButton"
                               onClick={() => window.open(restaurantCard.menu)}
                             >
                               Menu
@@ -264,30 +321,25 @@ export default class Room extends Component {
               </div> 
             </div>
             <React.Fragment>
-              <Button
+              <button
                 color="secondary"
                 variant="contained"
-                onClick = {this.leftSwipe}
+                class="swipeButton swipeButtonLeft"
+                onClick = {swipeHandler.bind(this, "left")}
               >
                 Left
-              </Button>
-              <Button
+              </button>
+              <button
                 color="secondary"
                 variant="contained"
-                onClick = {this.rightSwipe}
+                class="swipeButton swipeButtonRight"
+                onClick = {swipeHandler.bind(this, "right")}
               >
                 Right
-              </Button>
+              </button>
             </React.Fragment>
             {this.state.lastDirection ? <h2 className='infoText'>You swiped {this.state.lastDirection}</h2> : <h2 className='infoText' />}
           </Grid>
-                        
-          {/* <Grid item xs={12} align ="center">
-                  <Typography variant="h6" component="h6">
-                  Host: {this.state.isHost.toString()}
-                  </Typography>
-                  </Grid>
-                {this.state.isHost ? this.renderSettingsButton() : null} */}
         </Grid>
       );
     }

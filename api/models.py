@@ -72,7 +72,8 @@ class Room(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     restaurant = models.ManyToManyField(Restaurant, default="None")
     head_count = models.IntegerField(null=False, default=1)
-
+    found_match = models.BooleanField(default=False)
+    match_restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name="_room_match_restaurant", null=True)
 
     def __str__(self):
         return f'{self.code} - {self.host_username} '

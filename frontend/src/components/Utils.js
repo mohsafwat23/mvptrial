@@ -73,14 +73,8 @@ function distance(lat1, lon1, lat2, lon2, unit) {
   }
 }
 
-export function swipeHelper(direction) {
-  console.log(direction + " Swipe Recorded")
-  var restaurantCards = document.querySelectorAll(".swipe")
-
-
-  reversedCards.forEach(element => {
-    console.log(element.classList[0]);
-  });
+export function swipeHelper() {
+  
 }
 
 export default {
