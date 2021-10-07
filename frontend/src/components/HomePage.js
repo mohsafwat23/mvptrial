@@ -10,7 +10,6 @@ import {
   Link,
   Redirect,
 } from "react-router-dom";
-
 export default class HomePage extends Component {
   constructor(props) {
     super(props);
@@ -32,6 +31,7 @@ export default class HomePage extends Component {
 
   renderHomePage() {
     return (
+      
       <Grid container spacing={1}>
         <div id="outvite-title">
           <Grid item xs={12} align="center">
@@ -57,16 +57,17 @@ export default class HomePage extends Component {
             </Typography>
           </Grid>
         </div>
+        
         <Grid item xs={12} align="center">
           <ButtonGroup disableElevation variant="contained" color="primary">
-            <div id="join-a-room">
-              <Button color="primary" to="/join" component={Link}>
-                <h3>Join a Room</h3>
-              </Button>
-            </div>
-            <div id="create-a-room">
+            <div>
               <Button color="primary" to="/create" component={Link}>
-                <h3>Create a Room</h3>
+                <button type="button" class="fill">Create a Room</button>
+              </Button>
+            </div>   
+            <div>
+              <Button color="primary" to="/join" component={Link}>
+                <button type="button" class="fill">Join a Room</button>
               </Button>
             </div>
           </ButtonGroup>

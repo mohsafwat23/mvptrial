@@ -322,7 +322,7 @@ h4 {
   width: 80px;
   height: 80px;
   animation-delay: 0s;
-  background: #f5ac1031;
+  background: #3909fe7a;
 }
 
 .circles li:nth-child(2) {
@@ -331,7 +331,7 @@ h4 {
   height: 20px;
   animation-delay: 2s;
   animation-duration: 12s;
-  background: #09d69c27;
+  background: #5930fe7a;
 }
 
 .circles li:nth-child(3) {
@@ -339,7 +339,7 @@ h4 {
   width: 20px;
   height: 20px;
   animation-delay: 4s;
-  background: #f8050557;
+  background: #977efe7a;
 }
 
 .circles li:nth-child(4) {
@@ -348,7 +348,7 @@ h4 {
   height: 60px;
   animation-delay: 0s;
   animation-duration: 18s;
-  background: #09d69c27;
+  background: #b7a5fe7a;
 }
 
 .circles li:nth-child(5) {
@@ -356,23 +356,23 @@ h4 {
   width: 20px;
   height: 20px;
   animation-delay: 0s;
-  background: #f8050557;
+  background: #d6ccff7a;
 }
 
 .circles li:nth-child(6) {
   left: 75%;
-  width: 110px;
-  height: 110px;
+  width: 100px;
+  height: 100px;
   animation-delay: 3s;
-  background: #f5ac1031;
+  background: #1501697a;
 }
 
 .circles li:nth-child(7) {
   left: 35%;
-  width: 150px;
-  height: 150px;
+  width: 130px;
+  height: 130px;
   animation-delay: 7s;
-  background: #09d69c27;
+  background: #3909fe7a;
 }
 
 .circles li:nth-child(8) {
@@ -381,7 +381,7 @@ h4 {
   height: 25px;
   animation-delay: 15s;
   animation-duration: 45s;
-  background: #f5ac1031;
+  background: #977efe7a;
 }
 
 .circles li:nth-child(9) {
@@ -390,16 +390,16 @@ h4 {
   height: 15px;
   animation-delay: 2s;
   animation-duration: 35s;
-  background: #f805059c;
+  background: #977efe7a;
 }
 
 .circles li:nth-child(10) {
   left: 85%;
-  width: 150px;
-  height: 150px;
+  width: 120px;
+  height: 120px;
   animation-delay: 0s;
   animation-duration: 11s;
-  background: #09d69c27;
+  background: #5930fe7a;
 }
 
 @keyframes animate {
@@ -435,35 +435,62 @@ h4 {
 }
 
 .swipeButtonLeft {
-  display: inline-block;
-  padding: 0.3em 1.2em;
-  margin: 1em 0em 5em 1em;
-  border: 0.16em solid rgba(255,255,255,0);
-  border-radius: 2em;
-  box-sizing: border-box;
-  text-decoration: none;
-  font-family: 'Roboto',sans-serif;
-  font-weight: 300;
-  color: #FFFFFF;
-  text-shadow: 0 0.04em 0.04em rgb(0 0 0 / 35%);
+  width: auto;
+  height: auto;
+  border-radius: 50%; /* the magic */
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
   text-align: center;
-  transition: all 0.2s;
-  background-color: #8f94fb;
+  color: white;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0 auto 40px;
 }
 
 .swipeButtonRight {
-  display: inline-block;
-  padding: 0.3em 1.2em;
-  margin: 1em 0em 5em 1em;
-  border: 0.16em solid rgba(255,255,255,0);
-  border-radius: 2em;
-  box-sizing: border-box;
-  text-decoration: none;
-  font-family: 'Roboto',sans-serif;
-  font-weight: 300;
-  color: #FFFFFF;
-  text-shadow: 0 0.04em 0.04em rgb(0 0 0 / 35%);
+  width: auto;
+  height: auto;
+  border-radius: 50%; /* the magic */
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
   text-align: center;
-  transition: all 0.2s;
-  background-color: #4e54c8;
+  color: white;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0 auto 40px;
 }
+
+.fill {
+  font-size: 1.8vmax;
+  font-weight: 400;
+  letter-spacing: 1px;
+  padding: 8px 20px 13px;
+  outline: 0;
+  border: 1px solid black;
+  cursor: pointer;
+  position: relative;
+  background-color: rgb(255, 255, 255);
+  margin: 1.5vmax;
+  
+}
+
+.fill::after {
+  content: "";
+  background-color: #dcbaff;
+  width: 100%;
+  z-index: -1;
+  position: absolute;
+  height: 100%;
+  top: 10px;
+  left: 10px;
+  transition: 0.2s;
+}
+
+.fill:hover::after {
+  top: 0px;
+  left: 0px;
+}
+
+

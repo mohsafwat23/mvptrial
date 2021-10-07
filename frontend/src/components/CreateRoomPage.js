@@ -219,7 +219,7 @@ export default class CreateRoomPage extends Component {
               }}
             />
             <FormHelperText>
-              <div align="center">Number of User in Group</div>
+              <div align="center">Number of Users in Group</div>
             </FormHelperText>
           </FormControl>
         </Grid>

@@ -327,18 +327,17 @@ export default class Room extends Component {
                 class="swipeButton swipeButtonLeft"
                 onClick = {swipeHandler.bind(this, "left")}
               >
-                Left
+                <img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/309/cross-mark_274c.png" width="40vmax" height="40vmax"/>
               </button>
               <button
                 color="secondary"
                 variant="contained"
                 class="swipeButton swipeButtonRight"
                 onClick = {swipeHandler.bind(this, "right")}
-              >
-                Right
+              >  <img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/309/check-mark_2714-fe0f.png" width="40vmax" height="40vmax"/>
               </button>
             </React.Fragment>
-            {this.state.lastDirection ? <h2 className='infoText'>You swiped {this.state.lastDirection}</h2> : <h2 className='infoText' />}
+            {/* {this.state.lastDirection ? <h2 className='infoText'>You swiped {this.state.lastDirection}</h2> : <h2 className='infoText' />} */}
           </Grid>
         </Grid>
       );
