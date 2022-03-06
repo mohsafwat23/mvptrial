@@ -10,6 +10,7 @@ import {
   Link,
   Redirect,
 } from "react-router-dom";
+import PrivacyPolicy from "./PrivacyPolicy";
 export default class HomePage extends Component {
   constructor(props) {
     super(props);
@@ -105,6 +106,7 @@ export default class HomePage extends Component {
               return <Room {...props} leaveRoomCallback={this.clearRoomCode} />;
             }}
           />
+
         </Switch>
       </Router>
     );
