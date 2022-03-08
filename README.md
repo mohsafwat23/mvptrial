@@ -2,7 +2,7 @@
 
 > Main website hosted @outvite.me
 
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-no-red.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
 
 ![](https://www.outvite.me/static/users/img/favicon.jpg)
 
